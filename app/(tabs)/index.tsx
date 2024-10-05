@@ -1,26 +1,6 @@
-<<<<<<< HEAD
-import { Text, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet } from "react-native";
-import React from "react";
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});
-=======
 import { useState } from "react";
 import { Text, Pressable, View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
->>>>>>> refs/remotes/origin/main
 
 export default function Index() {
   const [markers, setMarkers] = useState([
