@@ -1,14 +1,4 @@
-// import { Stack } from "expo-router";
-
-// export default function RootLayout() {
-//   return (
-//     <Stack>
-//       <Stack.Screen name="index" />
-//     </Stack>
-//   );
-// }
 import { Tabs } from "expo-router";
-import React from "react";
 
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
@@ -28,11 +18,8 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: "recall",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={"telescope-outline"}
-              color={color}
-            />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name={"telescope-outline"} color={color} />
           ),
         }}
       />
@@ -40,11 +27,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "note",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={"pin-outline"}
-              color={color}
-            />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name={"pin-outline"} color={color} />
           ),
         }}
       />
@@ -52,11 +36,8 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "settings",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={"cog-outline"}
-              color={color}
-            />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name={"cog-outline"} color={color} />
           ),
         }}
       />

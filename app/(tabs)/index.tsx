@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Text, Pressable, View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 
@@ -23,9 +23,6 @@ export default function Index() {
           />
         ))}
       </MapView>
-      <Pressable className="h-8 ">
-        <Text className="text-white text-center">Add Marker</Text>
-      </Pressable>
     </View>
   );
 }
