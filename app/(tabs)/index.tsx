@@ -5,9 +5,9 @@ import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 export default function Index() {
   const [markers, setMarkers] = useState([
     {
-      coordinate: { latitude: 37.78825, longitude: -122.4324 },
-      title: "Hello",
-      description: "World",
+      coordinate: { latitude: 10.7423, longitude: 106.701 },
+      title: "Chung cư Sunrise City Central",
+      description: "Anh Nguyễn",
     },
   ]);
 
