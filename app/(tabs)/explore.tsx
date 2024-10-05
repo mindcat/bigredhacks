@@ -1,90 +1,159 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
-
+import { StyleSheet, Text, Image, Platform, Button, Modal, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import React, { useState } from 'react';
 
 export default function TabTwoScreen() {
+  interface Note {
+    timestamp: number;
+    latitude: number;
+    longitude: number;
+    tags: string[];
+    title: string;
+    content: string;
+  }
+
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [title, setTitle] = useState(""); 
+  const [content, setContent] = useState(""); 
+  const [latitude, setLatitude] = useState<string>("");  // Storing latitude as string for TextInput
+  const [longitude, setLongitude] = useState<string>("");  // Storing longitude as string for TextInput
+  const [tags, setTags] = useState<string>("");  // Comma-separated string to capture tags
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSaveNote = () => {
+    if (selectedNote) {
+        const updatedNotes = notes.map((note) =>
+            note.id === selectedNote.id ? { ...note, title, content, latitude: parseFloat(latitude), longitude: parseFloat(longitude), tags: tags.split(',') } : note
+        );
+        setNotes(updatedNotes);
+        setSelectedNote(null);
+    } else {
+        const newNote = {
+            id: Date.now(),
+            title,
+            content,
+            latitude: parseFloat(latitude),  // Parse latitude and longitude to numbers
+            longitude: parseFloat(longitude),
+            tags: tags.split(','),  // Split comma-separated tags into an array
+        };
+        setNotes([...notes, newNote]);
+    }
+    setTitle("");
+    setContent("");
+    setLatitude("");
+    setLongitude("");
+    setTags("");
+    setModalVisible(false);
+};
+
+
+  const handleEditNote = (note) => {
+      setSelectedNote(note);
+      setTitle(note.title);
+      setContent(note.content);
+      setModalVisible(true);
+  };
+
+  const handleDeleteNote = (note) => {
+      const updatedNotes = notes.filter(
+          (item) => item.id !== note.id
+      );
+      setNotes(updatedNotes);
+      setSelectedNote(null);
+      setModalVisible(false);
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+      <View style={styles.container}>
+          <Text style={styles.title}>My Notes</Text>
+
+          <ScrollView style={styles.noteList}>
+  {notes.map((note) => (
+    <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
+      <View>
+        <Text style={styles.noteTitle}>{note.title}</Text>
+        <Text>Location: {note.latitude}, {note.longitude}</Text>
+        <Text>Tags: {note.tags.join(', ')}</Text>
+      </View>
+    </TouchableOpacity>
+  ))}
+</ScrollView>
+
+
+          <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => {
+                  setTitle("");
+                  setContent("");
+                  setModalVisible(true);
+              }}
+          >
+              <Text style={styles.addButtonText}>
+                  Add Note
+              </Text>
+          </TouchableOpacity>
+
+          <Modal visible={modalVisible} animationType="slide" transparent={false}>
+  <View style={styles.modalContainer}>
+    {/* Title Input */}
+    <TextInput
+      style={styles.input}
+      placeholder="Enter note title"
+      value={title}
+      onChangeText={setTitle}
+    />
+
+    {/* Content Input */}
+    <TextInput
+      style={styles.contentInput}
+      multiline
+      placeholder="Enter note content"
+      value={content}
+      onChangeText={setContent}
+    />
+
+    {/* Latitude Input */}
+    <TextInput
+      style={styles.input}
+      placeholder="Enter latitude"
+      value={latitude}
+      onChangeText={setLatitude}
+      keyboardType="numeric"  // Ensures numeric keyboard for latitude input
+    />
+
+    {/* Longitude Input */}
+    <TextInput
+      style={styles.input}
+      placeholder="Enter longitude"
+      value={longitude}
+      onChangeText={setLongitude}
+      keyboardType="numeric"  // Ensures numeric keyboard for longitude input
+    />
+
+    {/* Tags Input */}
+    <TextInput
+      style={styles.input}
+      placeholder="Enter tags (comma-separated)"
+      value={tags}
+      onChangeText={setTags}
+    />
+
+    <View style={styles.buttonContainer}>
+      <Button title="Save" onPress={handleSaveNote} color="#007BFF" />
+      <Button title="Cancel" onPress={() => setModalVisible(false)} color="#FF3B30" />
+      {selectedNote && (
+        <Button title="Delete" onPress={() => handleDeleteNote(selectedNote)} color="#FF9500" />
+      )}
+    </View>
+  </View>
+</Modal>
+      </View>
   );
 }
 
@@ -98,5 +167,72 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+  },
+  container: {
+      flex: 1,
+      padding: 40,
+      backgroundColor: "#e6e6e6",
+  },
+  title: {
+      fontSize: 24,
+      fontWeight: "bold",
+      marginBottom: 10,
+      color: "#333",
+  },
+  noteList: {
+      flex: 1,
+  },
+  noteTitle: {
+      fontSize: 15,
+      marginBottom: 10,
+      fontWeight: "bold",
+      color: "black",
+      backgroundColor: "white",
+      height: 40,
+      width: "100%",
+      padding: 10,
+      borderRadius: 8,
+  },
+  addButton: {
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#007BFF",
+      paddingVertical: 12,
+      borderRadius: 5,
+      marginTop: 10,
+  },
+  addButtonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+  },
+  modalContainer: {
+      flex: 1,
+      padding: 50,
+      backgroundColor: "white",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  noteDetails: {
+    fontSize: 12,
+    color: "#555",
+  },
+  contentInput: {
+      borderWidth: 1,
+      borderColor: "#E0E0E0",
+      padding: 10,
+      marginBottom: 20,
+      borderRadius: 5,
+      height: 150,
+      textAlignVertical: "top",
+  },
+  buttonContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
   },
 });

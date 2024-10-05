@@ -20,29 +20,41 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
         headerShown: false,
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="explore"
         options={{
-          title: "Home",
+          title: "recall",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "home" : "home-outline"}
+              name={"telescope-outline"}
               color={color}
             />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="index"
         options={{
-          title: "Explore",
+          title: "note",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
+              name={"pin-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "settings",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={"cog-outline"}
               color={color}
             />
           ),
