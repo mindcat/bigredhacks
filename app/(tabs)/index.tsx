@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Text, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet } from "react-native";
@@ -15,27 +16,36 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 });
+=======
+import { useState } from "react";
+import { Text, Pressable, View } from "react-native";
+import MapView, { MapMarkerProps, Marker } from "react-native-maps";
+>>>>>>> refs/remotes/origin/main
 
 export default function Index() {
+  const [markers, setMarkers] = useState([
+    {
+      coordinate: { latitude: 37.78825, longitude: -122.4324 },
+      title: "Hello",
+      description: "World",
+    },
+  ]);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <MapView
-        // provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-      />
-      {/* <Text>Edit app/index.tsx to edit this.</Text> */}
+    <View>
+      <MapView className="h-full" tintColor="red">
+        {markers.map((marker: MapMarkerProps, index) => (
+          <Marker
+            key={index}
+            coordinate={marker.coordinate}
+            title={marker.title}
+            description={marker.description}
+          />
+        ))}
+      </MapView>
+      <Pressable className="h-8 ">
+        <Text className="text-white text-center">Add Marker</Text>
+      </Pressable>
     </View>
   );
 }
