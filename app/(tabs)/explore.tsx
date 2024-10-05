@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabTwoScreen() {
   interface Note {
@@ -82,7 +83,7 @@ export default function TabTwoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Notes</Text>
+      <Text style={styles.title}>My Journey</Text>
 
       <ScrollView style={styles.noteList}>
         {notes.map((note) => (
@@ -106,7 +107,8 @@ export default function TabTwoScreen() {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.addButtonText}>Add Note</Text>
+        <Text style={styles.addButtonText}>New Pin</Text> 
+        <Ionicons name="pin-outline" />
       </TouchableOpacity>
 
       <Modal visible={modalVisible} animationType="slide" transparent={false}>
@@ -177,7 +179,7 @@ export default function TabTwoScreen() {
 
 const styles = StyleSheet.create({
   headerImage: {
-    color: "#808080",
+    color: "#808080", // Keeping this unchanged since it's an image color
     bottom: -90,
     left: -35,
     position: "absolute",
@@ -189,13 +191,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 40,
-    backgroundColor: "#e6e6e6",
+    backgroundColor: "#121212", // Dark background for the entire container
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 36,
     marginBottom: 10,
-    color: "#333",
+    color: "#FFFFFF", // White text for titles
+    fontFamily: "PN", // Use Poltawski Nowy font for the title
   },
   noteList: {
     flex: 1,
@@ -203,51 +205,58 @@ const styles = StyleSheet.create({
   noteTitle: {
     fontSize: 15,
     marginBottom: 10,
-    fontWeight: "bold",
-    color: "black",
-    backgroundColor: "white",
+    color: "#FFFFFF", // White text for the note titles
+    backgroundColor: "#1E1E1E", // Dark background for note titles
     height: 40,
     width: "100%",
     padding: 10,
     borderRadius: 8,
+    fontFamily: "PoltawskiNowy", // Apply Poltawski Nowy font
   },
   addButton: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#007BFF",
+    backgroundColor: "#FF3B30", // Red highlight for the add button (NothingOS inspired)
     paddingVertical: 12,
     borderRadius: 5,
     marginTop: 10,
   },
   addButtonText: {
-    color: "white",
+    color: "#FFFFFF", // White text for the button
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "PN", // Apply Poltawski Nowy font to the button text
   },
   modalContainer: {
     flex: 1,
     padding: 50,
-    backgroundColor: "white",
+    backgroundColor: "#1E1E1E", // Dark background for modal
   },
   input: {
     borderWidth: 1,
-    borderColor: "#E0E0E0",
+    borderColor: "#FF3B30", // Red border highlight for inputs
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+    color: "#FFFFFF", // White text for input fields
+    backgroundColor: "#333333", // Dark background for input fields
+    fontFamily: "PN", // Apply Poltawski Nowy font to the input fields
   },
   noteDetails: {
     fontSize: 12,
-    color: "#555",
+    color: "#FFFFFF", // White text for note details
+    fontFamily: "PN", // Apply Poltawski Nowy font
   },
   contentInput: {
     borderWidth: 1,
-    borderColor: "#E0E0E0",
+    borderColor: "#FF3B30", // Red border for content input
     padding: 10,
     marginBottom: 20,
     borderRadius: 5,
     height: 150,
     textAlignVertical: "top",
+    backgroundColor: "#333333", // Dark background for content input
+    color: "#FFFFFF", // White text for content input
+    fontFamily: "PN", // Apply Poltawski Nowy font
   },
   buttonContainer: {
     flexDirection: "row",
