@@ -29,6 +29,8 @@ export default function RootLayout() {
 })
 .then(location => {
     console.log(location);
+    global.currentLat = location.latitude;
+    global.currentLong = location.longitude;
 })
 .catch(error => {
     const { code, message } = error;
