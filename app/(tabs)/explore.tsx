@@ -27,8 +27,8 @@ export default function TabTwoScreen() {
               ...note,
               title,
               content,
-              latitude: parseFloat(latitude.toString()),
-              longitude: parseFloat(longitude.toString()),
+              latitude: latitude,
+              longitude: longitude,
               tags: tags,
             }
           : note
@@ -41,8 +41,8 @@ export default function TabTwoScreen() {
         timestamp: Date.now(), // Add timestamp property
         title: "",
         content: "",
-        latitude: 0,
-        longitude: 0,
+        latitude: "",
+        longitude: "",
         tags: "", // Split comma-separated tags into an array
       };
       setNotes([...notes, newNote]);
@@ -83,7 +83,12 @@ export default function TabTwoScreen() {
         <Ionicons name="pin-outline" />
       </TouchableOpacity>
 
-      {modalVisible && <LocationInputPage visible={modalVisible} />}
+      {modalVisible && (
+        <LocationInputPage
+          visible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </View>
   );
 }

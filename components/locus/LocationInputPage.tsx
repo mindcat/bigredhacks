@@ -1,9 +1,9 @@
-import { Modal, TextInput, Text, Pressable } from "react-native";
+import { StyleSheet, Modal, TextInput, Text, Pressable } from "react-native";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Note from "@/types/Note";
 
 export default function LocationInputPage(props: any) {
-  const { modalVisible } = props;
+  const { modalVisible, setModalVisible } = props;
 
   const {
     control,
@@ -13,8 +13,8 @@ export default function LocationInputPage(props: any) {
     defaultValues: {
       title: "",
       content: "",
-      latitude: 0,
-      longitude: 0,
+      latitude: "",
+      longitude: "",
       tags: "",
     },
   });
@@ -34,13 +34,20 @@ export default function LocationInputPage(props: any) {
     // TODO: serialize into JSON and save to Pinata
   };
 
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <Modal
       visible={modalVisible}
       animationType="slide"
       transparent={false}
-      className="h-full flex justify-center items-center bg-white"
+      style={styles.modal}
     >
+      <Pressable onPress={closeModal} style={styles.closeButton}>
+        <Text style={styles.closeButtonText}>Close</Text>
+      </Pressable>
       <Controller
         control={control}
         rules={{
@@ -51,15 +58,13 @@ export default function LocationInputPage(props: any) {
             placeholder="Enter location title"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value.toString()}
-            className="border p-2 mb-4 w-3/4"
+            value={value}
+            style={styles.input}
           />
         )}
         name="title"
       />
-      {errors.title && (
-        <Text className="text-red-500 mb-4">This is required.</Text>
-      )}
+      {errors.title && <Text style={styles.errorText}>This is required.</Text>}
 
       <Controller
         control={control}
@@ -73,13 +78,13 @@ export default function LocationInputPage(props: any) {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            className="border p-2 mb-4 w-3/4"
+            style={styles.input}
           />
         )}
         name="content"
       />
       {errors.content && (
-        <Text className="text-red-500 mb-4">This is required.</Text>
+        <Text style={styles.errorText}>This is required.</Text>
       )}
 
       <Controller
@@ -93,14 +98,14 @@ export default function LocationInputPage(props: any) {
             keyboardType="numeric"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value.toString()}
-            className="border p-2 mb-4 w-3/4"
+            value={value}
+            style={styles.input}
           />
         )}
         name="latitude"
       />
       {errors.latitude && (
-        <Text className="text-red-500 mb-4">This is required.</Text>
+        <Text style={styles.errorText}>This is required.</Text>
       )}
 
       <Controller
@@ -114,14 +119,14 @@ export default function LocationInputPage(props: any) {
             keyboardType="numeric"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value.toString()}
-            className="border p-2 mb-4 w-3/4"
+            value={value}
+            style={styles.input}
           />
         )}
         name="longitude"
       />
       {errors.longitude && (
-        <Text className="text-red-500 mb-4">This is required.</Text>
+        <Text style={styles.errorText}>This is required.</Text>
       )}
 
       <Controller
@@ -135,20 +140,58 @@ export default function LocationInputPage(props: any) {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            className="border p-2 mb-4 w-3/4"
+            style={styles.input}
           />
         )}
         name="tags"
       />
-      {errors.tags && (
-        <Text className="text-red-500 mb-4">This is required.</Text>
-      )}
-      <Pressable
-        onPress={handleSubmit(onSubmit)}
-        className="bg-blue-500 p-2 rounded"
-      >
-        <Text className="text-white">Submit</Text>
+      {errors.tags && <Text style={styles.errorText}>This is required.</Text>}
+      <Pressable onPress={handleSubmit(onSubmit)} style={styles.submitButton}>
+        <Text style={styles.submitButtonText}>Submit</Text>
       </Pressable>
     </Modal>
   );
 }
+const styles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 20,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  input: {
+    width: "100%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
+  },
+  submitButton: {
+    backgroundColor: "blue",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+});
