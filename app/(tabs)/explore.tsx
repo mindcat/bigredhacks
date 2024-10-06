@@ -20,7 +20,7 @@ export default function TabTwoScreen() {
   const [longitude, setLongitude] = useState<string>(""); // Storing longitude as string for TextInput
   const [tags, setTags] = useState<string>(""); // Comma-separated string to capture tags
   const [modalVisible, setModalVisible] = useState(false);
-  const [sortCriteria, setSortCriteria] = useState('timestamp');
+  const [sortCriteria, setSortCriteria] = useState("timestamp");
 
   // const sortNotes = (notes) => {
   //   switch (sortCriteria) {
@@ -81,26 +81,23 @@ export default function TabTwoScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>My Journey</Text>
       <Picker
-          selectedValue={sortCriteria}
-          style={styles.picker}
-          onValueChange={(itemValue) => setSortCriteria(itemValue)}
-        >
-          <Picker.Item label="Sort by Timestamp" value="timestamp" />
-          <Picker.Item label="Sort by Tags" value="tags" />
-          <Picker.Item label="Sort by Proximity" value="proximity" />
-        </Picker>
+        selectedValue={sortCriteria}
+        style={styles.picker}
+        onValueChange={(itemValue) => setSortCriteria(itemValue)}
+      >
+        <Picker.Item label="Sort by Timestamp" value="timestamp" />
+        <Picker.Item label="Sort by Tags" value="tags" />
+        <Picker.Item label="Sort by Proximity" value="proximity" />
+      </Picker>
       <ScrollView style={styles.noteList}>
         {notes.map((note) => (
-          <TouchableOpacity
-            key={note.id}
-            onPress={() => handleEditNote(note)}
-          >
+          <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
             <View>
-              <Text >{note.title}</Text>
-              <Text >
+              <Text>{note.title}</Text>
+              <Text>
                 Location: {note.latitude}, {note.longitude}
               </Text>
-              <Text >Tags: {note.tags}</Text>
+              <Text>Tags: {note.tags}</Text>
             </View>
           </TouchableOpacity>
         ))}
