@@ -37,7 +37,7 @@ export default function TabLayout() {
         options={{
           title: "start",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name={"rocket-outline"} color={color} />
+            <TabBarIcon name={"golf-outline"} color={color} />
           ),
         }}
       />

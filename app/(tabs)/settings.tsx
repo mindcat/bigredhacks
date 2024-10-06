@@ -21,7 +21,7 @@ export default function TabTwoScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText style={styles.textTitle}>Settings</ThemedText>
+        <ThemedText style={styles.textTitle}>Guide</ThemedText>
       </ThemedView>
       {/* <Collapsible title="Debug">
         <ThemedText style={styles.text}>Current latitude: {global.currentLat}</ThemedText>
