@@ -8,7 +8,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { serverUrl } from "@/constants/Server";
 
 interface LocationInputPageProps {
   modalVisible: boolean;

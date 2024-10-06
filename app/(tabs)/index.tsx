@@ -1,9 +1,8 @@
 import LocationInputPage from "@/components/locus/LocationInputPage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
-import Note from "@/types/Note";
 
 export default function Index() {
   const [markers, setMarkers] = useState<MapMarkerProps[]>([]);
