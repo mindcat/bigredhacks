@@ -118,7 +118,7 @@ export default function LocationInputPage({
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              placeholder="Enter latitude"
+              placeholder={global.currentLat.toString()}
               onBlur={onBlur}
               onChangeText={(val) => {
                 // Ensure only valid characters are input
@@ -147,7 +147,7 @@ export default function LocationInputPage({
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              placeholder="Enter longitude"
+              placeholder={global.currentLong.toString()}
               onBlur={onBlur}
               onChangeText={(val) => {
                 // Ensure only valid characters are input
