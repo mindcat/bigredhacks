@@ -17,9 +17,9 @@ export default function LocationEntry({
         <Text style={styles.location}>{location.title}</Text>
         <View style={styles.row}>
           <Text style={styles.locationDetails}>
-            Coordinates: {location.latitude}, {location.longitude}
+            Lat/Long: {location.latitude}, {location.longitude}
           </Text>
-          <Text style={styles.errorText}>Tag: {location.tags}</Text>
+          <Text style={styles.errorText}>#{location.tags}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -30,7 +30,7 @@ export default function Explore() {
       case "timestamp":
         return locations.sort((a, b) => b.timestamp - a.timestamp);
       case "tags":
-      // return locations.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
+      return locations.sort((a, b) => a.tags.localeCompare(b.tags));
       case "proximity":
         return locations.sort((a, b) => {
           const distanceA = Math.sqrt(
