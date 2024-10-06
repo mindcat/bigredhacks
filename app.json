@@ -14,7 +14,7 @@
     },
     "ios": {
       "infoPlist": {
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Locus needs access to your location to notify you of previously saved locations nearby."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Vitri needs access to your location to notify you of previously saved locations nearby."
       },
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.Locus"
@@ -40,6 +40,12 @@
         "react-native-permissions",
         {
           "iosPermissions": ["Location"]
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ],
       [
