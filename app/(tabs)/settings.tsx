@@ -17,7 +17,7 @@ export default function TabTwoScreen() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
       headerImage={
-        <Ionicons size={310} name="cog-outline" style={styles.headerImage} />
+        <Ionicons size={310} name="earth" style={styles.headerImage} />
       }
     >
       <ThemedView style={styles.titleContainer}>
@@ -57,8 +57,8 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   headerImage: {
     color: "#FF3B30",
-    bottom: -90,
-    left: -35,
+    bottom: -75,
+    left: -45,
     position: "absolute",
   },
   titleContainer: {

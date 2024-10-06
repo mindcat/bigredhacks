@@ -2,7 +2,9 @@ import Location from "@/types/Location";
 import { callApiUpsertLocation } from "@/utils/api";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -64,7 +66,7 @@ export default function LocationInputPage({
       animationType="slide"
       transparent={true} // Ensures modal is transparent
     >
-      <View style={styles.modalContainer}>
+      <KeyboardAvoidingView behavior={"height"} style={styles.modalContainer}>
         <Text style={styles.title}>New Memory</Text>
         <Controller
           control={control}
@@ -205,7 +207,7 @@ export default function LocationInputPage({
             <Text style={styles.submitButtonText}>Save</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
@@ -284,6 +286,7 @@ const styles = StyleSheet.create({
     color: "#FF3B30", // Red error text
     fontFamily: "SpaceMono", // Monospace font
     marginBottom: 10,
+    padding: 10,
   },
   buttonRow: {
     flexDirection: "row",

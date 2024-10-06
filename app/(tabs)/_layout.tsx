@@ -35,9 +35,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "settings",
+          title: "start",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name={"cog-outline"} color={color} />
+            <TabBarIcon name={"rocket-outline"} color={color} />
           ),
         }}
       />
