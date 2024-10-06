@@ -20,7 +20,7 @@ export default function Index() {
 
   return (
     <View>
-      <MapView className="h-full" tintColor="red">
+      <MapView tintColor="red">
         {markers.map((marker: MapMarkerProps, index) => (
           <Marker
             key={index}
