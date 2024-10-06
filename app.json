@@ -42,7 +42,12 @@
           ]
         }
       ],
-      "expo-font"
+      [
+        "expo-font",
+        {
+          "fonts": ["assets/fonts/PoltawskiNowy-Regular.otf", "assets/fonts/PoltawskiNowy-SemiBold.otf", "assets/fonts/PoltawskiNowy-Italic.otf"]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
