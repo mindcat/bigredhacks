@@ -65,7 +65,7 @@ export default function LocationInputPage({
       transparent={true} // Ensures modal is transparent
     >
       <View style={styles.modalContainer}>
-        <Text style={styles.title}>Add/Edit Location</Text>
+        <Text style={styles.title}>New Memory</Text>
         <Controller
           control={control}
           rules={{ required: true }}
@@ -112,7 +112,7 @@ export default function LocationInputPage({
           <Controller
             control={control}
             rules={{
-              required: true,
+              required: false,
               validate: (value) =>
                 (value >= -90 && value <= 90) ||
                 "Latitude must be between -90 and 90",
@@ -145,7 +145,7 @@ export default function LocationInputPage({
           <Controller
             control={control}
             rules={{
-              required: true,
+              required: false,
               validate: (value) =>
                 (value >= -180 && value <= 180) ||
                 "Longitude must be between -180 and 180",
@@ -181,7 +181,7 @@ export default function LocationInputPage({
           rules={{ required: false }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              placeholder="Enter tags (comma-separated)"
+              placeholder="Enter tag"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 40,
     borderRadius: 24,
-    backgroundColor: "rgba(18, 18, 18, 1)", // Dark, semi-transparent background
+    backgroundColor: "rgba(25, 25, 25, 1)", // Dark, semi-transparent background
   },
   input: {
     borderWidth: 0, // No borders for minimalist look
