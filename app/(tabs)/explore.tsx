@@ -108,7 +108,7 @@ export default function TabTwoScreen() {
           setModalVisible(true);
         }}
       >
-        {/* <Text style={styles.addButtonText}>New Pin</Text>  */}
+        <Text style={styles.addButtonText}>New Pin</Text>
         <Ionicons name="pin-outline" />
       </TouchableOpacity>
 

@@ -9,15 +9,7 @@ export default function LocationInputPage(props: any) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Note>({
-    defaultValues: {
-      title: "",
-      content: "",
-      latitude: "",
-      longitude: "",
-      tags: "",
-    },
-  });
+  } = useForm<Note>();
 
   const onSubmit: SubmitHandler<Note> = (data) => {
     console.log(data);
