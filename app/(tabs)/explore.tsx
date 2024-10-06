@@ -1,38 +1,45 @@
+import LocationEntry from "@/components/locus/LocationEntry";
+import LocationInputPage from "@/components/locus/LocationInputPage";
+import Note from "@/types/Note";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Picker } from "@react-native-picker/picker";
+import React, { useEffect, useState } from "react";
 import {
+  ScrollView,
   StyleSheet,
   Text,
-  Button,
-  Modal,
-  ScrollView,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
-import { Picker } from "@react-native-picker/picker";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import LocationInputPage from "@/components/locus/LocationInputPage";
 
-export default function TabTwoScreen() {
-  interface Note {
-    id: any;
-    timestamp: number;
-    latitude: number;
-    longitude: number;
-    tags: string[];
-    title: string;
-    content: string;
-  }
-
+export default function Explore() {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [latitude, setLatitude] = useState<string>(""); // Storing latitude as string for TextInput
-  const [longitude, setLongitude] = useState<string>(""); // Storing longitude as string for TextInput
-  const [tags, setTags] = useState<string>(""); // Comma-separated string to capture tags
   const [modalVisible, setModalVisible] = useState(false);
   const [sortCriteria, setSortCriteria] = useState("timestamp");
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch(`https://api.anhnlh.com/getAllLocations`, {
+          method: "GET",
+        });
+        const data = await response.json();
+        const locations = data.map((location: any) => ({
+          timestamp: location.timestamp,
+          latitude: parseFloat(location.latitude),
+          longitude: parseFloat(location.longitude),
+          tags: location.tags,
+          title: location.title,
+          content: location.content,
+        }));
+        setNotes(locations);
+      } catch (error) {
+        console.error("Error fetching markers:", error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
 
   const sortNotes = (notes: Note[]) => {
     switch (sortCriteria) {
@@ -59,94 +66,84 @@ export default function TabTwoScreen() {
 
   const sortedNotes = sortNotes([...notes]);
 
-  const handleSaveNote = () => {
-    if (selectedNote) {
-      const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id
-          ? {
-              ...note,
-              title,
-              content,
-              latitude: parseFloat(latitude),
-              longitude: parseFloat(longitude),
-              tags: tags.split(","),
-            }
-          : note
-      );
-      setNotes(updatedNotes);
-      setSelectedNote(null);
-    } else {
-      const newNote = {
-        id: Date.now(),
-        timestamp: Date.now(), // Add timestamp property
-        title,
-        content,
-        latitude: parseFloat(latitude), // Parse latitude and longitude to numbers
-        longitude: parseFloat(longitude),
-        tags: tags.split(","), // Split comma-separated tags into an array
-      };
-      setNotes([...notes, newNote]);
-    }
-    setTitle("");
-    setContent("");
-    setLatitude("");
-    setLongitude("");
-    setTags("");
-    setModalVisible(false);
-  };
+  // const handleSaveNote = () => {
+  //   if (selectedNote) {
+  //     const updatedNotes = notes.map((note) =>
+  //       note.id === selectedNote.id
+  //         ? {
+  //             ...note,
+  //             title,
+  //             content,
+  //             latitude: parseFloat(latitude),
+  //             longitude: parseFloat(longitude),
+  //             tags: tags.split(","),
+  //           }
+  //         : note
+  //     );
+  //     setNotes(updatedNotes);
+  //     setSelectedNote(null);
+  //   } else {
+  //     const newNote = {
+  //       id: Date.now(),
+  //       timestamp: Date.now(), // Add timestamp property
+  //       title,
+  //       content,
+  //       latitude: parseFloat(latitude), // Parse latitude and longitude to numbers
+  //       longitude: parseFloat(longitude),
+  //       tags: tags.split(","), // Split comma-separated tags into an array
+  //     };
+  //     setNotes([...notes, newNote]);
+  //   }
+  //   setTitle("");
+  //   setContent("");
+  //   setLatitude("");
+  //   setLongitude("");
+  //   setTags("");
+  //   setModalVisible(false);
+  // };
 
-  const handleEditNote = (note: Note) => {
-    setSelectedNote(note);
-    setTitle(note.title);
-    setContent(note.content);
-    setModalVisible(true);
-  };
+  // const handleEditNote = (note: Note) => {
+  //   setSelectedNote(note);
+  //   setTitle(note.title);
+  //   setContent(note.content);
+  //   setModalVisible(true);
+  // };
 
-  const handleDeleteNote = (note: Note) => {
-    const updatedNotes = notes.filter((item) => item.id !== note.id);
-    setNotes(updatedNotes);
-    setSelectedNote(null);
-    setModalVisible(false);
-  };
+  // const handleDeleteNote = (note: Note) => {
+  //   const updatedNotes = notes.filter((item) => item.id !== note.id);
+  //   setNotes(updatedNotes);
+  //   setSelectedNote(null);
+  //   setModalVisible(false);
+  // };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Journey</Text>
       <Picker
-          selectedValue={sortCriteria}
-          style={styles.input}
-          onValueChange={(itemValue) => setSortCriteria(itemValue)}
-        >
-          <Picker.Item label="Sort by Timestamp" value="timestamp" />
-          <Picker.Item label="Sort by Tags" value="tags" />
-          <Picker.Item label="Sort by Proximity" value="proximity" />
-        </Picker>
-        {/* <Ionicons name="filter-outline" size={20} color="#FFFFFF" style={styles.icon} /> */}
-        
+        selectedValue={sortCriteria}
+        style={styles.input}
+        onValueChange={(itemValue) => setSortCriteria(itemValue)}
+      >
+        <Picker.Item label="Sort by Timestamp" value="timestamp" />
+        <Picker.Item label="Sort by Tags" value="tags" />
+        <Picker.Item label="Sort by Proximity" value="proximity" />
+      </Picker>
+      {/* <Ionicons name="filter-outline" size={20} color="#FFFFFF" style={styles.icon} /> */}
+
       <ScrollView style={styles.noteList}>
         {notes.map((note) => (
-          <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
-            <View>
-              <Text style={styles.noteTitle}>{note.title}</Text>
-              <Text>
-                Location: {note.latitude}, {note.longitude}
-              </Text>
-              <Text>Tags: {note.tags.join(", ")}</Text>
-            </View>
-          </TouchableOpacity>
+          <LocationEntry key={note.timestamp} note={note} onPress={() => {}} />
         ))}
       </ScrollView>
 
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {
-          setTitle("");
-          setContent("");
           setModalVisible(true);
         }}
       >
         {/* <Text style={styles.addButtonText}>New Pin</Text>  */}
-        <Ionicons name="pin-outline" />
+        <Ionicons name="pin-outline" size={24} />
       </TouchableOpacity>
 
       {modalVisible && (
@@ -155,8 +152,6 @@ export default function TabTwoScreen() {
           setModalVisible={setModalVisible}
         />
       )}
-
-      
     </View>
   );
 }

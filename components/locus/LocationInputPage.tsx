@@ -8,10 +8,17 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { serverUrl } from "@/constants/Server";
 
-export default function LocationInputPage(props: any) {
-  const { modalVisible, setModalVisible } = props;
+interface LocationInputPageProps {
+  modalVisible: boolean;
+  setModalVisible: (visible: boolean) => void;
+}
 
+export default function LocationInputPage({
+  modalVisible,
+  setModalVisible,
+}: LocationInputPageProps) {
   const {
     control,
     handleSubmit,
@@ -22,13 +29,12 @@ export default function LocationInputPage(props: any) {
     console.log(data);
     const { title, content, latitude, longitude, tags } = data;
     const newNote = {
-      id: Date.now(),
       timestamp: Date.now(), // last used
       title,
       content,
       latitude,
       longitude,
-      tags, // Split comma-separated tags into an array
+      tags,
     };
 
     fetch(`https://api.anhnlh.com/uploadLocation`, {
@@ -207,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E", // Dark background for input fields
     fontFamily: "PN", // Regular font
     fontSize: 16,
-  },  
+  },
   inputBold: {
     borderWidth: 0, // No borders for minimalist look
     padding: 10,

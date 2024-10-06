@@ -3,6 +3,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
+import Note from "@/types/Note";
 
 export default function Index() {
   const [markers, setMarkers] = useState<MapMarkerProps[]>([]);
@@ -19,8 +20,8 @@ export default function Index() {
           title: location.title,
           description: location.content,
           coordinate: {
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: parseFloat(location.latitude),
+            longitude: parseFloat(location.longitude),
           },
         }));
         setMarkers(markersData);
@@ -54,7 +55,7 @@ export default function Index() {
         style={styles.journeyButton}
         onPress={() => setModalVisible(true)}
       >
-      <Ionicons name="footsteps-outline" size={30} color="white" />
+        <Ionicons name="footsteps-outline" size={30} color="white" />
       </TouchableOpacity>
 
       {modalVisible && (
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { width: 2, height: 2 },
     shadowRadius: 5,
-  },  
+  },
   journeyButton: {
     position: "absolute", // Ensure the button is positioned over the map
     bottom: 25, // Distance from the bottom
