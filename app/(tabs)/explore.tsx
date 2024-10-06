@@ -22,18 +22,22 @@ export default function TabTwoScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [sortCriteria, setSortCriteria] = useState("timestamp");
 
-
-
   const sortNotes = (notes: Note[]) => {
     switch (sortCriteria) {
-      case 'timestamp':
+      case "timestamp":
         return notes.sort((a, b) => b.timestamp - a.timestamp);
-      case 'tags':
-        // return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
-      case 'proximity':
+      case "tags":
+      // return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
+      case "proximity":
         return notes.sort((a, b) => {
-          const distanceA = Math.sqrt(Math.pow(a.latitude - global.currentLat, 2) + Math.pow(a.longitude - global.currentLong, 2));
-          const distanceB = Math.sqrt(Math.pow(b.latitude - global.currentLat, 2) + Math.pow(b.longitude - global.currentLong, 2));
+          const distanceA = Math.sqrt(
+            Math.pow(a.latitude - global.currentLat, 2) +
+              Math.pow(a.longitude - global.currentLong, 2)
+          );
+          const distanceB = Math.sqrt(
+            Math.pow(b.latitude - global.currentLat, 2) +
+              Math.pow(b.longitude - global.currentLong, 2)
+          );
           return distanceA - distanceB;
         });
       default:
@@ -70,8 +74,8 @@ export default function TabTwoScreen() {
         timestamp: Date.now(), // Add timestamp property
         title: "",
         content: "",
-        latitude: "",
-        longitude: "",
+        latitude: 0,
+        longitude: 0,
         tags: "", // Split comma-separated tags into an array
       };
       setNotes([...notes, newNote]);

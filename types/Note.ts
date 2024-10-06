@@ -1,8 +1,8 @@
 interface Note {
   id: any;
   timestamp: number;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   tags: string;
   title: string;
   content: string;
