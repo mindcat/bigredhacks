@@ -61,11 +61,7 @@ export default function LocationInputPage({
   };
 
   return (
-    <Modal
-      visible={modalVisible}
-      animationType="slide"
-      transparent={true} // Ensures modal is transparent
-    >
+    <Modal visible={modalVisible} animationType="slide" transparent={true}>
       <KeyboardAvoidingView behavior={"height"} style={styles.modalContainer}>
         <Text style={styles.title}>New Memory</Text>
         <Controller
@@ -216,7 +212,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 40,
-    borderRadius: 24,
     backgroundColor: "rgba(25, 25, 25, 1)", // Dark, semi-transparent background
   },
   input: {
