@@ -1,5 +1,4 @@
-interface Note {
-  id: any;
+export default interface Location {
   timestamp: number;
   latitude: number;
   longitude: number;
@@ -7,5 +6,3 @@ interface Note {
   title: string;
   content: string;
 }
-
-export default Note;

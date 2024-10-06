@@ -1,20 +1,25 @@
-import Note from "@/types/Note";
+import Location from "@/types/Location";
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 
 interface LocationEntryProps {
-  note: Note;
-  onPress: () => void;
+  location: Location;
+  handleOnPress: (location: Location) => void;
 }
 
-export default function LocationEntry({ note, onPress }: LocationEntryProps) {
+export default function LocationEntry({
+  location,
+  handleOnPress,
+}: LocationEntryProps) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.noteTitle}>
-        <Text style={styles.note}>{note.title}</Text>
+    <TouchableOpacity onPress={() => handleOnPress(location)}>
+      <View style={styles.locationTitle}>
+        <Text style={styles.location}>{location.title}</Text>
         <View style={styles.row}>
-        <Text style={styles.noteLoc}>Location: {note.latitude}, {note.longitude}</Text>
-        <Text style={styles.errorText}>Tag: {note.tags}</Text>
+          <Text style={styles.locationDetails}>
+            Coordinates: {location.latitude}, {location.longitude}
+          </Text>
+          <Text style={styles.errorText}>Tag: {location.tags}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -22,11 +27,11 @@ export default function LocationEntry({ note, onPress }: LocationEntryProps) {
 }
 
 const styles = StyleSheet.create({
-  noteTitle: {
+  locationTitle: {
     fontSize: 15,
     marginBottom: 10,
-    color: "#FFFFFF", // White text for the note titles
-    backgroundColor: "#1E1E1E", // Dark background for note titles
+    color: "#FFFFFF",
+    backgroundColor: "#1E1E1E",
     height: 50,
     width: "100%",
     padding: 10,
@@ -37,16 +42,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  note: {
+  location: {
     fontSize: 15,
     // marginBottom: ,
-    color: "#FFFFFF", // White text for the note titles
+    color: "#FFFFFF",
     fontFamily: "PNB", // Apply Poltawski Nowy font
   },
-  noteLoc: {
+  locationDetails: {
     fontSize: 12,
     // marginBottom: ,
-    color: "#FFFFFF", // White text for the note titles
+    color: "#FFFFFF",
     fontFamily: "PN", // Apply Poltawski Nowy font
   },
   errorText: {

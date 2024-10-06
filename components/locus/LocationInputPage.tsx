@@ -1,4 +1,5 @@
-import Note from "@/types/Note";
+import Location from "@/types/Location";
+import { callApiUpsertLocation } from "@/utils/api";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   Modal,
@@ -12,22 +13,26 @@ import {
 interface LocationInputPageProps {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
+  location?: Location;
 }
 
 export default function LocationInputPage({
   modalVisible,
   setModalVisible,
+  location,
 }: LocationInputPageProps) {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Note>();
+  } = useForm<Location>({
+    defaultValues: location !== undefined ? location : {},
+  });
 
-  const onSubmit: SubmitHandler<Note> = (data) => {
+  const onSubmit: SubmitHandler<Location> = (data) => {
     console.log(data);
     const { title, content, latitude, longitude, tags } = data;
-    const newNote = {
+    const newLocation = {
       timestamp: Date.now(), // last used
       title,
       content,
@@ -35,23 +40,8 @@ export default function LocationInputPage({
       longitude,
       tags,
     };
-
-    fetch(`https://api.anhnlh.com/uploadLocation`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newNote),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        // TODO: show a checkmark then close the modal after a short delay
-        setModalVisible(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    callApiUpsertLocation(newLocation, location?.timestamp);
+    setModalVisible(false);
   };
 
   const closeModal = () => {
@@ -65,6 +55,7 @@ export default function LocationInputPage({
       transparent={true} // Ensures modal is transparent
     >
       <View style={styles.modalContainer}>
+        <Text style={styles.title}>Add/Edit Location</Text>
         <Controller
           control={control}
           rules={{ required: true }}
@@ -106,65 +97,65 @@ export default function LocationInputPage({
           )}
           name="content"
         />
-        
-        <View style={styles.row}>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-            validate: (value) =>
-              (value >= -90 && value <= 90) ||
-              "Latitude must be between -90 and 90",
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Enter latitude"
-              onBlur={onBlur}
-              onChangeText={(val) => {
-                // Ensure only valid characters are input
-                if (/^-?\d*\.?\d*$/.test(val)) {
-                  onChange(val); // Update the field value only if the regex passes
-                }
-              }}
-              value={value !== undefined ? String(value) : ""}
-              style={styles.inputNum}
-              placeholderTextColor="#B0B0B0"
-            />
-          )}
-          name="latitude"
-        />
-        {errors.latitude && (
-          <Text style={styles.errorText}>{errors.latitude.message}</Text>
-        )}
 
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-            validate: (value) =>
-              (value >= -180 && value <= 180) ||
-              "Longitude must be between -180 and 180",
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Enter longitude"
-              onBlur={onBlur}
-              onChangeText={(val) => {
-                // Ensure only valid characters are input
-                if (/^-?\d*\.?\d*$/.test(val)) {
-                  onChange(val); // Update the field value only if the regex passes
-                }
-              }}
-              value={value !== undefined ? String(value) : ""}
-              style={styles.inputNum}
-              placeholderTextColor="#B0B0B0"
-            />
+        <View style={styles.row}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+              validate: (value) =>
+                (value >= -90 && value <= 90) ||
+                "Latitude must be between -90 and 90",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                placeholder="Enter latitude"
+                onBlur={onBlur}
+                onChangeText={(val) => {
+                  // Ensure only valid characters are input
+                  if (/^-?\d*\.?\d*$/.test(val)) {
+                    onChange(val); // Update the field value only if the regex passes
+                  }
+                }}
+                value={value !== undefined ? String(value) : ""}
+                style={styles.inputNum}
+                placeholderTextColor="#B0B0B0"
+              />
+            )}
+            name="latitude"
+          />
+          {errors.latitude && (
+            <Text style={styles.errorText}>{errors.latitude.message}</Text>
           )}
-          name="longitude"
-        />
-        {errors.longitude && (
-          <Text style={styles.errorText}>{errors.longitude.message}</Text>
-        )}
+
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+              validate: (value) =>
+                (value >= -180 && value <= 180) ||
+                "Longitude must be between -180 and 180",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                placeholder="Enter longitude"
+                onBlur={onBlur}
+                onChangeText={(val) => {
+                  // Ensure only valid characters are input
+                  if (/^-?\d*\.?\d*$/.test(val)) {
+                    onChange(val); // Update the field value only if the regex passes
+                  }
+                }}
+                value={value !== undefined ? String(value) : ""}
+                style={styles.inputNum}
+                placeholderTextColor="#B0B0B0"
+              />
+            )}
+            name="longitude"
+          />
+          {errors.longitude && (
+            <Text style={styles.errorText}>{errors.longitude.message}</Text>
+          )}
         </View>
 
         <Controller
@@ -308,5 +299,11 @@ const styles = StyleSheet.create({
     color: "#FFFFFF", // White text on Save button
     fontFamily: "PNB", // Bold font
     fontSize: 16,
+  },
+  title: {
+    fontSize: 36,
+    marginBottom: 10,
+    color: "#FFFFFF", // White text for titles
+    fontFamily: "PN", // Use Poltawski Nowy font for the title
   },
 });

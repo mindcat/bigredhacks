@@ -1,4 +1,5 @@
 import LocationInputPage from "@/components/locus/LocationInputPage";
+import { callApiGetAllLocations } from "@/utils/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -9,27 +10,17 @@ export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    const fetchMarkers = async () => {
-      try {
-        const response = await fetch(`https://api.anhnlh.com/getAllLocations`, {
-          method: "GET",
-        });
-        const data = await response.json();
-        const markersData = data.map((location: any) => ({
-          title: location.title,
-          description: location.content,
-          coordinate: {
-            latitude: parseFloat(location.latitude),
-            longitude: parseFloat(location.longitude),
-          },
-        }));
-        setMarkers(markersData);
-      } catch (error) {
-        console.error("Error fetching markers:", error);
-      }
-    };
-
-    fetchMarkers();
+    callApiGetAllLocations().then((locations) => {
+      const markersData = locations.map((location: any) => ({
+        title: location.title,
+        description: location.content,
+        coordinate: {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        },
+      }));
+      setMarkers(markersData);
+    });
   }, [modalVisible]);
 
   return (

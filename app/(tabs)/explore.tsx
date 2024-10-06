@@ -1,6 +1,7 @@
 import LocationEntry from "@/components/locus/LocationEntry";
 import LocationInputPage from "@/components/locus/LocationInputPage";
-import Note from "@/types/Note";
+import Location from "@/types/Location";
+import { callApiGetAllLocations } from "@/utils/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
@@ -13,42 +14,25 @@ import {
 } from "react-native";
 
 export default function Explore() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [locations, setLocations] = useState<Location[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<Location>();
   const [sortCriteria, setSortCriteria] = useState("timestamp");
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await fetch(`https://api.anhnlh.com/getAllLocations`, {
-          method: "GET",
-        });
-        const data = await response.json();
-        const locations = data.map((location: any) => ({
-          timestamp: location.timestamp,
-          latitude: parseFloat(location.latitude),
-          longitude: parseFloat(location.longitude),
-          tags: location.tags,
-          title: location.title,
-          content: location.content,
-        }));
-        setNotes(locations);
-      } catch (error) {
-        console.error("Error fetching markers:", error);
-      }
-    };
+    callApiGetAllLocations().then((data) => {
+      setLocations(data);
+    });
+  }, [modalVisible]);
 
-    fetchLocations();
-  }, []);
-
-  const sortNotes = (notes: Note[]) => {
+  const sortLocations = (locations: Location[]) => {
     switch (sortCriteria) {
       case "timestamp":
-        return notes.sort((a, b) => b.timestamp - a.timestamp);
+        return locations.sort((a, b) => b.timestamp - a.timestamp);
       case "tags":
-      // return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
+      // return locations.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
       case "proximity":
-        return notes.sort((a, b) => {
+        return locations.sort((a, b) => {
           const distanceA = Math.sqrt(
             Math.pow(a.latitude - global.currentLat, 2) +
               Math.pow(a.longitude - global.currentLong, 2)
@@ -60,61 +44,15 @@ export default function Explore() {
           return distanceA - distanceB;
         });
       default:
-        return notes;
+        return locations;
     }
   };
 
-  const sortedNotes = sortNotes([...notes]);
-
-  // const handleSaveNote = () => {
-  //   if (selectedNote) {
-  //     const updatedNotes = notes.map((note) =>
-  //       note.id === selectedNote.id
-  //         ? {
-  //             ...note,
-  //             title,
-  //             content,
-  //             latitude: parseFloat(latitude),
-  //             longitude: parseFloat(longitude),
-  //             tags: tags.split(","),
-  //           }
-  //         : note
-  //     );
-  //     setNotes(updatedNotes);
-  //     setSelectedNote(null);
-  //   } else {
-  //     const newNote = {
-  //       id: Date.now(),
-  //       timestamp: Date.now(), // Add timestamp property
-  //       title,
-  //       content,
-  //       latitude: parseFloat(latitude), // Parse latitude and longitude to numbers
-  //       longitude: parseFloat(longitude),
-  //       tags: tags.split(","), // Split comma-separated tags into an array
-  //     };
-  //     setNotes([...notes, newNote]);
-  //   }
-  //   setTitle("");
-  //   setContent("");
-  //   setLatitude("");
-  //   setLongitude("");
-  //   setTags("");
-  //   setModalVisible(false);
-  // };
-
-  // const handleEditNote = (note: Note) => {
-  //   setSelectedNote(note);
-  //   setTitle(note.title);
-  //   setContent(note.content);
-  //   setModalVisible(true);
-  // };
-
-  // const handleDeleteNote = (note: Note) => {
-  //   const updatedNotes = notes.filter((item) => item.id !== note.id);
-  //   setNotes(updatedNotes);
-  //   setSelectedNote(null);
-  //   setModalVisible(false);
-  // };
+  const sortedLocations = sortLocations([...locations]);
+  const handleOnPress = (location: Location) => {
+    setSelectedLocation(location);
+    setModalVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -130,9 +68,13 @@ export default function Explore() {
       </Picker>
       {/* <Ionicons name="filter-outline" size={20} color="#FFFFFF" style={styles.icon} /> */}
 
-      <ScrollView style={styles.noteList}>
-        {notes.map((note) => (
-          <LocationEntry key={note.timestamp} note={note} onPress={() => {}} />
+      <ScrollView style={styles.locationList}>
+        {locations.map((location) => (
+          <LocationEntry
+            key={location.timestamp}
+            location={location}
+            handleOnPress={handleOnPress}
+          />
         ))}
       </ScrollView>
 
@@ -150,6 +92,7 @@ export default function Explore() {
         <LocationInputPage
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
+          location={selectedLocation}
         />
       )}
     </View>
@@ -178,7 +121,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF", // White text for titles
     fontFamily: "PN", // Use Poltawski Nowy font for the title
   },
-  noteList: {
+  locationList: {
     flex: 1,
   },
   noteTitle: {
