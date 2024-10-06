@@ -109,7 +109,7 @@ export default function LocationInputPage({
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder="Enter latitude"
+                placeholder={global.currentLat.toString()}
                 onBlur={onBlur}
                 onChangeText={(val) => {
                   // Ensure only valid characters are input
@@ -138,7 +138,7 @@ export default function LocationInputPage({
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder="Enter longitude"
+                placeholder={global.currentLong.toString()}
                 onBlur={onBlur}
                 onChangeText={(val) => {
                   // Ensure only valid characters are input
@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 40,
-    backgroundColor: "rgba(18, 18, 18, 0.95)", // Dark, semi-transparent background
+    borderRadius: 24,
+    backgroundColor: "rgba(18, 18, 18, 1)", // Dark, semi-transparent background
   },
   input: {
     borderWidth: 0, // No borders for minimalist look
