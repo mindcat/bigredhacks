@@ -3,15 +3,20 @@ import { callApiGetAllLocations } from "@/utils/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import MapView, { MapMarkerProps, Marker } from "react-native-maps";
+import MapView, { MapMarkerProps, Marker, Polyline } from "react-native-maps";
 
 export default function Index() {
   const [markers, setMarkers] = useState<MapMarkerProps[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [polylineCoordinates, setPolylineCoordinates] = useState<{ latitude: number; longitude: number }[]>([]);
+  const [isPolylineVisible, setIsPolylineVisible] = useState(false);
 
   useEffect(() => {
     callApiGetAllLocations().then((locations) => {
-      const markersData = locations.map((location: any) => ({
+      // Sort locations by timestamp
+      const sortedLocations = locations.sort((a: any, b: any) => new Date(a.timestamp) - new Date(b.timestamp));
+
+      const markersData = sortedLocations.map((location: any) => ({
         title: location.title,
         description: location.content,
         coordinate: {
@@ -19,12 +24,23 @@ export default function Index() {
           longitude: location.longitude,
         },
       }));
+
+      const polylineCoords = sortedLocations.map((location: any) => ({
+        latitude: location.latitude,
+        longitude: location.longitude,
+      }));
+
       setMarkers(markersData);
+      setPolylineCoordinates(polylineCoords);
     });
   }, [modalVisible]);
 
+  const togglePolylineVisibility = () => {
+    setIsPolylineVisible(!isPolylineVisible);
+  };
+
   return (
-    <View>
+    <View style={styles.container}>
       <MapView style={styles.map}>
         {markers.map((marker: MapMarkerProps, index) => (
           <Marker
@@ -34,6 +50,14 @@ export default function Index() {
             description={marker.description}
           />
         ))}
+        {isPolylineVisible && polylineCoordinates.length > 1 && (
+          <Polyline
+            coordinates={polylineCoordinates}
+            strokeColor="#FF3B30" // Red color (you can change the color)
+            strokeWidth={2}
+            lineDashPattern={[1, 2]} // Dotted line pattern
+          />
+        )}
       </MapView>
       <TouchableOpacity
         style={styles.roundButton}
@@ -43,7 +67,7 @@ export default function Index() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.journeyButton}
-        onPress={() => setModalVisible(true)}
+        onPress={togglePolylineVisibility}
       >
         <Ionicons name="footsteps-outline" size={30} color="white" />
       </TouchableOpacity>
