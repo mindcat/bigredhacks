@@ -46,7 +46,7 @@ export default function LocationInputPage(props: any) {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={styles.inputBold}
               placeholderTextColor="#B0B0B0"
             />
           )}
@@ -152,6 +152,15 @@ const styles = StyleSheet.create({
     color: "#FFFFFF", // White text
     backgroundColor: "#1E1E1E", // Dark background for input fields
     fontFamily: "PN", // Regular font
+    fontSize: 16,
+  },
+  inputBold: {
+    borderWidth: 0, // No borders for minimalist look
+    padding: 10,
+    marginBottom: 10,
+    color: "#FFFFFF", // White text
+    backgroundColor: "#1E1E1E", // Dark background for input fields
+    fontFamily: "PNB", // Bold font
     fontSize: 16,
   },
   errorText: {
