@@ -32,18 +32,24 @@ export default function TabTwoScreen() {
   const [longitude, setLongitude] = useState<string>(""); // Storing longitude as string for TextInput
   const [tags, setTags] = useState<string>(""); // Comma-separated string to capture tags
   const [modalVisible, setModalVisible] = useState(false);
-  const [sortCriteria, setSortCriteria] = useState('timestamp');
+  const [sortCriteria, setSortCriteria] = useState("timestamp");
 
-  const sortNotes = (notes) => {
+  const sortNotes = (notes: Note[]) => {
     switch (sortCriteria) {
-      case 'timestamp':
+      case "timestamp":
         return notes.sort((a, b) => b.timestamp - a.timestamp);
-      case 'tags':
-        return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
-      case 'proximity':
+      case "tags":
+      // return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
+      case "proximity":
         return notes.sort((a, b) => {
-          const distanceA = Math.sqrt(Math.pow(a.latitude - currentLat, 2) + Math.pow(a.longitude - currentLong, 2));
-          const distanceB = Math.sqrt(Math.pow(b.latitude - currentLat, 2) + Math.pow(b.longitude - currentLong, 2));
+          const distanceA = Math.sqrt(
+            Math.pow(a.latitude - global.currentLat, 2) +
+              Math.pow(a.longitude - global.currentLong, 2)
+          );
+          const distanceB = Math.sqrt(
+            Math.pow(b.latitude - global.currentLat, 2) +
+              Math.pow(b.longitude - global.currentLong, 2)
+          );
           return distanceA - distanceB;
         });
       default:

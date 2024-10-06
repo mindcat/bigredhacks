@@ -1,26 +1,36 @@
 import LocationInputPage from "@/components/locus/LocationInputPage";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 
 export default function Index() {
-  // global currentLat =
-
-  const [markers, setMarkers] = useState([
-    {
-      coordinate: { latitude: 10.7423, longitude: 106.701 },
-      title: "Chung cư Sunrise City Central",
-      description: "Anh Nguyễn",
-    },
-    {
-      coordinate: { latitude: 32.212, longitude: -110.968 },
-      title: "Cafe Desta",
-      description: "best ethiopian in Tucson!",
-    },
-  ]);
-
+  const [markers, setMarkers] = useState<MapMarkerProps[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchMarkers = async () => {
+      try {
+        const response = await fetch(`https://api.anhnlh.com/getAllLocations`, {
+          method: "GET",
+        });
+        const data = await response.json();
+        const markersData = data.map((location: any) => ({
+          title: location.title,
+          description: location.content,
+          coordinate: {
+            latitude: location.latitude,
+            longitude: location.longitude,
+          },
+        }));
+        setMarkers(markersData);
+      } catch (error) {
+        console.error("Error fetching markers:", error);
+      }
+    };
+
+    fetchMarkers();
+  }, [modalVisible]);
 
   return (
     <View>

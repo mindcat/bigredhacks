@@ -39,9 +39,7 @@
       [
         "react-native-permissions",
         {
-          "iosPermissions": [
-            "Location"
-          ]
+          "iosPermissions": ["Location"]
         }
       ],
       [

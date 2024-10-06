@@ -1,8 +1,13 @@
-import { StyleSheet, Modal, TextInput, Text, Pressable, View } from "react-native";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Note from "@/types/Note";
-import Markdown from 'react-native-markdown-display'; // Import Markdown display component
-
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 export default function LocationInputPage(props: any) {
   const { modalVisible, setModalVisible } = props;
@@ -21,11 +26,27 @@ export default function LocationInputPage(props: any) {
       timestamp: Date.now(), // last used
       title,
       content,
-      latitude: latitude, // Parse latitude and longitude to numbers
-      longitude: longitude,
-      tags: tags, // Split comma-separated tags into an array
+      latitude,
+      longitude,
+      tags, // Split comma-separated tags into an array
     };
-    // TODO: serialize into JSON and save to Pinata
+
+    fetch(`https://api.anhnlh.com/uploadLocation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newNote),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        // TODO: show a checkmark then close the modal after a short delay
+        setModalVisible(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const closeModal = () => {
@@ -36,7 +57,7 @@ export default function LocationInputPage(props: any) {
     <Modal
       visible={modalVisible}
       animationType="slide"
-      transparent={true}  // Ensures modal is transparent
+      transparent={true} // Ensures modal is transparent
     >
       <View style={styles.modalContainer}>
         <Controller
@@ -54,7 +75,9 @@ export default function LocationInputPage(props: any) {
           )}
           name="title"
         />
-        {errors.title && <Text style={styles.errorText}>This is required.</Text>}
+        {errors.title && (
+          <Text style={styles.errorText}>This is required.</Text>
+        )}
 
         <Controller
           control={control}
@@ -78,48 +101,67 @@ export default function LocationInputPage(props: any) {
           )}
           name="content"
         />
-        {errors.content && <Text style={styles.errorText}>This is required.</Text>}
-
-        <View style={styles.latLongContainer}>
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                placeholder="Latitude"
-                keyboardType="numeric"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                style={styles.latLongInput}
-                placeholderTextColor="#B0B0B0"
-              />
-            )}
-            name="latitude"
-          />
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                placeholder="Longitude"
-                keyboardType="numeric"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                style={styles.latLongInput}
-                placeholderTextColor="#B0B0B0"
-              />
-            )}
-            name="longitude"
-          />
-        </View>
-        {errors.latitude && <Text style={styles.errorText}>Latitude is required.</Text>}
-        {errors.longitude && <Text style={styles.errorText}>Longitude is required.</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            validate: (value) =>
+              (value >= -90 && value <= 90) ||
+              "Latitude must be between -90 and 90",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="Enter latitude"
+              onBlur={onBlur}
+              onChangeText={(val) => {
+                // Ensure only valid characters are input
+                if (/^-?\d*\.?\d*$/.test(val)) {
+                  onChange(val); // Update the field value only if the regex passes
+                }
+              }}
+              value={value !== undefined ? String(value) : ""}
+              style={styles.input}
+              placeholderTextColor="#B0B0B0"
+            />
+          )}
+          name="latitude"
+        />
+        {errors.latitude && (
+          <Text style={styles.errorText}>{errors.latitude.message}</Text>
+        )}
 
         <Controller
           control={control}
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            validate: (value) =>
+              (value >= -180 && value <= 180) ||
+              "Longitude must be between -180 and 180",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="Enter longitude"
+              onBlur={onBlur}
+              onChangeText={(val) => {
+                // Ensure only valid characters are input
+                if (/^-?\d*\.?\d*$/.test(val)) {
+                  onChange(val); // Update the field value only if the regex passes
+                }
+              }}
+              value={value !== undefined ? String(value) : ""}
+              style={styles.input}
+              placeholderTextColor="#B0B0B0"
+            />
+          )}
+          name="longitude"
+        />
+        {errors.longitude && (
+          <Text style={styles.errorText}>{errors.longitude.message}</Text>
+        )}
+
+        <Controller
+          control={control}
+          rules={{ required: false }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               placeholder="Enter tags (comma-separated)"
@@ -139,8 +181,11 @@ export default function LocationInputPage(props: any) {
           <Pressable onPress={closeModal} style={styles.cancelButton}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
-          <Pressable onPress={handleSubmit(onSubmit)} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Save</Text>
+          <Pressable
+            onPress={handleSubmit(onSubmit)}
+            style={styles.submitButton}
+          >
+            <Text style={styles.submitButtonText}>Save Experience</Text>
           </Pressable>
         </View>
       </View>
