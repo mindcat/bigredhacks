@@ -10,12 +10,10 @@ interface LocationEntryProps {
 export default function LocationEntry({ note, onPress }: LocationEntryProps) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View>
-        <Text style={styles.noteTitle}>{note.title}</Text>
-        <Text>
-          Location: {note.latitude}, {note.longitude}
-        </Text>
-        <Text>Tags: {note.tags}</Text>
+      <View style={styles.noteTitle}>
+        <Text style={styles.note}>{note.title}</Text>
+        <Text style={styles.noteLoc}>Location: {note.latitude}, {note.longitude}</Text>
+        <Text style={styles.errorText}>Tags: {note.tags}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -27,10 +25,27 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#FFFFFF", // White text for the note titles
     backgroundColor: "#1E1E1E", // Dark background for note titles
-    height: 40,
+    height: 50,
     width: "100%",
     padding: 10,
     borderRadius: 8,
+    fontFamily: "PNB", // Apply Poltawski Nowy font
+  },
+  note: {
+    fontSize: 15,
+    // marginBottom: ,
+    color: "#FFFFFF", // White text for the note titles
+    fontFamily: "PNB", // Apply Poltawski Nowy font
+  },
+  noteLoc: {
+    fontSize: 12,
+    // marginBottom: ,
+    color: "#FFFFFF", // White text for the note titles
     fontFamily: "PN", // Apply Poltawski Nowy font
+  },
+  errorText: {
+    color: "#FF3B30", // Red error text
+    fontFamily: "SpaceMono", // Monospace font
+    marginBottom: 10,
   },
 });

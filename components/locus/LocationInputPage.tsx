@@ -106,6 +106,8 @@ export default function LocationInputPage({
           )}
           name="content"
         />
+        
+        <View style={styles.row}>
         <Controller
           control={control}
           rules={{
@@ -125,7 +127,7 @@ export default function LocationInputPage({
                 }
               }}
               value={value !== undefined ? String(value) : ""}
-              style={styles.input}
+              style={styles.inputNum}
               placeholderTextColor="#B0B0B0"
             />
           )}
@@ -154,7 +156,7 @@ export default function LocationInputPage({
                 }
               }}
               value={value !== undefined ? String(value) : ""}
-              style={styles.input}
+              style={styles.inputNum}
               placeholderTextColor="#B0B0B0"
             />
           )}
@@ -163,6 +165,7 @@ export default function LocationInputPage({
         {errors.longitude && (
           <Text style={styles.errorText}>{errors.longitude.message}</Text>
         )}
+        </View>
 
         <Controller
           control={control}
@@ -210,6 +213,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#FFFFFF", // White text
     backgroundColor: "#1E1E1E", // Dark background for input fields
+    fontFamily: "PN", // Regular font
+    fontSize: 16,
+  },
+  inputNum: {
+    borderWidth: 0, // No borders for minimalist look
+    padding: 10,
+    marginBottom: 10,
+    color: "#FFFFFF", // White text
     fontFamily: "PN", // Regular font
     fontSize: 16,
   },
@@ -264,6 +275,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   cancelButton: {
     padding: 15,
