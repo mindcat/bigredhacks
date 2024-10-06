@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderRadius: 8,
-    fontFamily: "PoltawskiNowy", // Apply Poltawski Nowy font
+    fontFamily: "PN", // Apply Poltawski Nowy font
   },
 });
