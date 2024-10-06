@@ -12,8 +12,10 @@ export default function LocationEntry({ note, onPress }: LocationEntryProps) {
     <TouchableOpacity onPress={onPress}>
       <View style={styles.noteTitle}>
         <Text style={styles.note}>{note.title}</Text>
+        <View style={styles.row}>
         <Text style={styles.noteLoc}>Location: {note.latitude}, {note.longitude}</Text>
-        <Text style={styles.errorText}>Tags: {note.tags}</Text>
+        <Text style={styles.errorText}>Tag: {note.tags}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -30,6 +32,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     fontFamily: "PNB", // Apply Poltawski Nowy font
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   note: {
     fontSize: 15,
