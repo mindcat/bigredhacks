@@ -82,7 +82,7 @@ export default function TabTwoScreen() {
       <Text style={styles.title}>My Journey</Text>
       <Picker
           selectedValue={sortCriteria}
-          style={{ height: 50, width: '100%' }}
+          style={styles.picker}
           onValueChange={(itemValue) => setSortCriteria(itemValue)}
         >
           <Picker.Item label="Sort by Timestamp" value="timestamp" />
@@ -94,14 +94,13 @@ export default function TabTwoScreen() {
           <TouchableOpacity
             key={note.id}
             onPress={() => handleEditNote(note)}
-            className="mb-4 p-4 bg-gray-100 rounded-lg"
           >
             <View>
-              <Text className="text-lg font-semibold">{note.title}</Text>
-              <Text className="text-sm text-gray-600">
+              <Text >{note.title}</Text>
+              <Text >
                 Location: {note.latitude}, {note.longitude}
               </Text>
-              <Text className="text-sm text-gray-600">Tags: {note.tags}</Text>
+              <Text >Tags: {note.tags}</Text>
             </View>
           </TouchableOpacity>
         ))}
@@ -111,7 +110,6 @@ export default function TabTwoScreen() {
         onPress={() => {
           setModalVisible(true);
         }}
-        className="mt-4 p-4 bg-blue-500 rounded-lg"
       >
         {/* <Text style={styles.addButtonText}>New Pin</Text>  */}
         <Ionicons name="pin-outline" />
@@ -137,6 +135,16 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     gap: 8,
+  },
+  picker: {
+    color: "#FFFFFF", // White text for the picker
+    backgroundColor: "#333333", // Dark background for the picker
+    fontFamily: "PN", // Apply Poltawski
+    padding: 10,
+    borderRadius: 5,
+    alignContent: "center",
+    justifyContent: "center",
+    marginBottom: 10,
   },
   container: {
     flex: 1,
