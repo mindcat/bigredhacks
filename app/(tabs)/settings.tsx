@@ -49,6 +49,18 @@ export default function TabTwoScreen() {
         Welcome to Vitri, a mobile application that helps you keep track of your
         memories geospatially!
       </ThemedText>
+      <ThemedText style={styles.text}>
+      We are tired of the feature-bloat, advertising, and distraction laden apps that are exhausting to use and difficult to avoid. <ThemedText style={styles.textB}>Vitri</ThemedText> has one use, it does it well, and there's no reason to open it when you don't need it. And you <ThemedText style={styles.textI}>will need it!</ThemedText> <ThemedText style={styles.textB}>Vị Trí</ThemedText> means location in Vietnamese, and that is the core thesis of <ThemedText style={styles.textB}>Vitri</ThemedText>; a geolocational notebook perfect as a travel journal (or even planner), a personal guidebook to your favorite places (hikes, restaurants, destinations and anywhere else on the globe you can think to place a pin), or a day-to-day notebook that is intrinsically organized the same way memories are: in space!
+      </ThemedText>
+
+        <ThemedText style={styles.text}>
+      <ThemedText style={styles.textB}>Vitri</ThemedText> works equally well on Android and iOS (download the Expo Go app and try it out!), records entries to MongoDB, and has a focused, clear, and minimalist design.
+</ThemedText>
+
+        <ThemedText style={styles.text}>The pins tab displays all your entries on a map, while the explore tab allows you to view your entries in a list format. You can add a pin on either screen! </ThemedText> 
+        <ThemedText style={styles.text}>By default, added pins are set to your current location. But the Lat and Long can be adjusted to match where you want to be! </ThemedText>
+        <ThemedText style={styles.text}>The tags field is a freeform text field that allows you to categorize your pins. </ThemedText>
+
       {/* </Collapsible> */}
     </ParallaxScrollView>
   );
