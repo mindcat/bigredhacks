@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import Note from "@/types/Note";
 import LocationInputPage from "@/components/locus/LocationInputPage";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Picker } from "@react-native-picker/picker";
 
 export default function TabTwoScreen() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -76,7 +77,6 @@ export default function TabTwoScreen() {
   };
 
   const handleEditNote = (note: Note) => {};
-  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Journey</Text>
