@@ -124,8 +124,8 @@ export default function Explore() {
         style={styles.input}
         onValueChange={(itemValue) => setSortCriteria(itemValue)}
       >
-        <Picker.Item label="Sort by Timestamp" value="timestamp" />
-        <Picker.Item label="Sort by Tags" value="tags" />
+        <Picker.Item label="Sort Chronologically" value="timestamp" />
+        <Picker.Item label="Sort by Tag" value="tags" />
         <Picker.Item label="Sort by Proximity" value="proximity" />
       </Picker>
       {/* <Ionicons name="filter-outline" size={20} color="#FFFFFF" style={styles.icon} /> */}
