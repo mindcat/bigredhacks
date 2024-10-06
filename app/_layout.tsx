@@ -9,10 +9,18 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React from 'react';
 
+declare global {
+  var currentLat: number;
+  var currentLong: number;
+}
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+
+  currentLat = 42.44949;
+  currentLong = -76.48063;
   
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -32,7 +40,7 @@ export default function RootLayout() {
     return null;
   }
 
-  
+
   
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
