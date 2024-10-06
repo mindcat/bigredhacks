@@ -1,6 +1,6 @@
 import Location from "@/types/Location";
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface LocationEntryProps {
   location: Location;
@@ -17,9 +17,10 @@ export default function LocationEntry({
         <Text style={styles.location}>{location.title}</Text>
         <View style={styles.row}>
           <Text style={styles.locationDetails}>
-            Coordinates: {location.latitude}, {location.longitude}
+            Coordinates: {location.latitude.toFixed(6)},{" "}
+            {location.longitude.toFixed(6)}
           </Text>
-          <Text style={styles.errorText}>Tag: {location.tags}</Text>
+          <Text style={styles.errorText}>#{location.tags}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -50,11 +51,12 @@ const styles = StyleSheet.create({
   },
   locationDetails: {
     fontSize: 12,
-    // marginBottom: ,
+    marginBottom: 10,
     color: "#FFFFFF",
     fontFamily: "PN", // Apply Poltawski Nowy font
   },
   errorText: {
+    fontSize: 12,
     color: "#FF3B30", // Red error text
     fontFamily: "SpaceMono", // Monospace font
     marginBottom: 10,

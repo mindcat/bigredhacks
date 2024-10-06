@@ -3,7 +3,6 @@ import LocationInputPage from "@/components/locus/LocationInputPage";
 import Location from "@/types/Location";
 import { callApiGetAllLocations } from "@/utils/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import {
   ScrollView,
@@ -48,7 +47,6 @@ export default function Explore() {
     }
   };
 
-  const sortedLocations = sortLocations([...locations]);
   const handleOnPress = (location: Location) => {
     setSelectedLocation(location);
     setModalVisible(true);
@@ -57,7 +55,7 @@ export default function Explore() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Journey</Text>
-      <Picker
+      {/* <Picker
         selectedValue={sortCriteria}
         style={styles.input}
         onValueChange={(itemValue) => setSortCriteria(itemValue)}
@@ -65,11 +63,11 @@ export default function Explore() {
         <Picker.Item label="Sort Chronologically" value="timestamp" />
         <Picker.Item label="Sort by Tag" value="tags" />
         <Picker.Item label="Sort by Proximity" value="proximity" />
-      </Picker>
+      </Picker> */}
       {/* <Ionicons name="filter-outline" size={20} color="#FFFFFF" style={styles.icon} /> */}
 
       <ScrollView style={styles.locationList}>
-        {locations.map((location) => (
+        {sortLocations([...locations]).map((location) => (
           <LocationEntry
             key={location.timestamp}
             location={location}

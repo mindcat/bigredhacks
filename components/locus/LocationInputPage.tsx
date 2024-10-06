@@ -33,8 +33,8 @@ export default function LocationInputPage({
         : {
             title: "",
             content: "",
-            latitude: global.currentLat,
-            longitude: global.currentLong,
+            latitude: parseFloat(global.currentLat.toFixed(6)),
+            longitude: parseFloat(global.currentLong.toFixed(6)),
             tags: "",
           },
   });
@@ -119,7 +119,7 @@ export default function LocationInputPage({
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder={global.currentLat.toString()}
+                placeholder={global.currentLat.toFixed(6)}
                 onBlur={onBlur}
                 onChangeText={(val) => {
                   // Ensure only valid characters are input
@@ -130,7 +130,7 @@ export default function LocationInputPage({
                 value={
                   value !== undefined
                     ? String(value)
-                    : global.currentLat.toString()
+                    : global.currentLat.toFixed(6)
                 }
                 style={styles.inputNum}
                 placeholderTextColor="#B0B0B0"
@@ -152,7 +152,7 @@ export default function LocationInputPage({
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder={global.currentLong.toString()}
+                placeholder={global.currentLong.toFixed(6)}
                 onBlur={onBlur}
                 onChangeText={(val) => {
                   // Ensure only valid characters are input
@@ -163,7 +163,7 @@ export default function LocationInputPage({
                 value={
                   value !== undefined
                     ? String(value)
-                    : global.currentLong.toString()
+                    : global.currentLong.toFixed(6)
                 }
                 style={styles.inputNum}
                 placeholderTextColor="#B0B0B0"

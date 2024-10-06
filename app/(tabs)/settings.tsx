@@ -1,10 +1,10 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Button, StyleSheet, TextInput, View, Text, TextProps } from "react-native";
 import { Collapsible } from "@/components/Collapsible";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 
 export default function TabTwoScreen() {
   const [latitude, setLatitude] = useState(global.currentLat);
@@ -23,7 +23,7 @@ export default function TabTwoScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText style={styles.textTitle}>Settings</ThemedText>
       </ThemedView>
-      <Collapsible title={<Text style={styles.textB}>Debug</Text>}>
+      {/* <Collapsible title="Debug">
         <ThemedText style={styles.text}>Current latitude: {global.currentLat}</ThemedText>
         <ThemedText style={styles.text}>Current longitude: {global.currentLong}</ThemedText>
         <View style={styles.inputContainer}>
@@ -43,13 +43,13 @@ export default function TabTwoScreen() {
           />
           <Button title="Update Location" onPress={handleUpdateLocation} />
         </View>
-      </Collapsible>
-      <Collapsible title={<Text style={styles.textB}>Introduction</Text>}>
-        <ThemedText style={styles.text}>
-          Welcome to Vitri, a mobile application that helps you keep track of
-          your memories geospatially!
-        </ThemedText>
-      </Collapsible>
+      </Collapsible> */}
+      {/* <Collapsible title="Introduction"> */}
+      <ThemedText style={styles.text}>
+        Welcome to Vitri, a mobile application that helps you keep track of your
+        memories geospatially!
+      </ThemedText>
+      {/* </Collapsible> */}
     </ParallaxScrollView>
   );
 }

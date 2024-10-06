@@ -22,21 +22,20 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   global.currentLat = 43;
-  global.currentLong  = -77;
+  global.currentLong = -77;
   const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      global.currentLat = location.coords.latitude; 
+      global.currentLat = location.coords.latitude;
       global.currentLong = location.coords.longitude;
     })();
   }, []);
