@@ -14,7 +14,7 @@ export default function Index() {
   useEffect(() => {
     callApiGetAllLocations().then((locations) => {
       // Sort locations by timestamp
-      const sortedLocations = locations.sort((a: any, b: any) => new Date(a.timestamp) - new Date(b.timestamp));
+      const sortedLocations = locations.sort((a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
       const markersData = sortedLocations.map((location: any) => ({
         title: location.title,
