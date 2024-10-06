@@ -1,17 +1,29 @@
 import {
   StyleSheet,
   Text,
+  Button,
+  Modal,
   ScrollView,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import React, { useState } from "react";
-import Note from "@/types/Note";
-import LocationInputPage from "@/components/locus/LocationInputPage";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import LocationInputPage from "@/components/locus/LocationInputPage";
 
 export default function TabTwoScreen() {
+  interface Note {
+    id: any;
+    timestamp: number;
+    latitude: number;
+    longitude: number;
+    tags: string[];
+    title: string;
+    content: string;
+  }
+
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [title, setTitle] = useState("");
@@ -20,20 +32,18 @@ export default function TabTwoScreen() {
   const [longitude, setLongitude] = useState<string>(""); // Storing longitude as string for TextInput
   const [tags, setTags] = useState<string>(""); // Comma-separated string to capture tags
   const [modalVisible, setModalVisible] = useState(false);
-  const [sortCriteria, setSortCriteria] = useState("timestamp");
+  const [sortCriteria, setSortCriteria] = useState('timestamp');
 
-
-
-  const sortNotes = (notes: Note[]) => {
+  const sortNotes = (notes) => {
     switch (sortCriteria) {
       case 'timestamp':
         return notes.sort((a, b) => b.timestamp - a.timestamp);
       case 'tags':
-        // return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
+        return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
       case 'proximity':
         return notes.sort((a, b) => {
-          const distanceA = Math.sqrt(Math.pow(a.latitude - global.currentLat, 2) + Math.pow(a.longitude - global.currentLong, 2));
-          const distanceB = Math.sqrt(Math.pow(b.latitude - global.currentLat, 2) + Math.pow(b.longitude - global.currentLong, 2));
+          const distanceA = Math.sqrt(Math.pow(a.latitude - currentLat, 2) + Math.pow(a.longitude - currentLong, 2));
+          const distanceB = Math.sqrt(Math.pow(b.latitude - currentLat, 2) + Math.pow(b.longitude - currentLong, 2));
           return distanceA - distanceB;
         });
       default:
@@ -43,22 +53,17 @@ export default function TabTwoScreen() {
 
   const sortedNotes = sortNotes([...notes]);
 
-  const handleDeleteNote = (note: Note) => {
-    const updatedNotes = notes.filter((n) => n.id !== note.id);
-    setNotes(updatedNotes);
-  };
   const handleSaveNote = () => {
     if (selectedNote) {
-      const { title, content, latitude, longitude, tags } = selectedNote;
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id
           ? {
               ...note,
               title,
               content,
-              latitude: latitude,
-              longitude: longitude,
-              tags: tags,
+              latitude: parseFloat(latitude),
+              longitude: parseFloat(longitude),
+              tags: tags.split(","),
             }
           : note
       );
@@ -68,58 +73,84 @@ export default function TabTwoScreen() {
       const newNote = {
         id: Date.now(),
         timestamp: Date.now(), // Add timestamp property
-        title: "",
-        content: "",
-        latitude: "",
-        longitude: "",
-        tags: "", // Split comma-separated tags into an array
+        title,
+        content,
+        latitude: parseFloat(latitude), // Parse latitude and longitude to numbers
+        longitude: parseFloat(longitude),
+        tags: tags.split(","), // Split comma-separated tags into an array
       };
       setNotes([...notes, newNote]);
     }
+    setTitle("");
+    setContent("");
+    setLatitude("");
+    setLongitude("");
+    setTags("");
+    setModalVisible(false);
   };
 
-  const handleEditNote = (note: Note) => {};
+  const handleEditNote = (note: Note) => {
+    setSelectedNote(note);
+    setTitle(note.title);
+    setContent(note.content);
+    setModalVisible(true);
+  };
+
+  const handleDeleteNote = (note: Note) => {
+    const updatedNotes = notes.filter((item) => item.id !== note.id);
+    setNotes(updatedNotes);
+    setSelectedNote(null);
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Journey</Text>
       <Picker
-        selectedValue={sortCriteria}
-        style={styles.picker}
-        onValueChange={(itemValue) => setSortCriteria(itemValue)}
-      >
-        <Picker.Item label="Sort by Timestamp" value="timestamp" />
-        <Picker.Item label="Sort by Tags" value="tags" />
-        <Picker.Item label="Sort by Proximity" value="proximity" />
-      </Picker>
+          selectedValue={sortCriteria}
+          style={styles.input}
+          onValueChange={(itemValue) => setSortCriteria(itemValue)}
+        >
+          <Picker.Item label="Sort by Timestamp" value="timestamp" />
+          <Picker.Item label="Sort by Tags" value="tags" />
+          <Picker.Item label="Sort by Proximity" value="proximity" />
+        </Picker>
+        {/* <Ionicons name="filter-outline" size={20} color="#FFFFFF" style={styles.icon} /> */}
+        
       <ScrollView style={styles.noteList}>
         {notes.map((note) => (
           <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
             <View>
-              <Text>{note.title}</Text>
+              <Text style={styles.noteTitle}>{note.title}</Text>
               <Text>
                 Location: {note.latitude}, {note.longitude}
               </Text>
-              <Text>Tags: {note.tags}</Text>
+              <Text>Tags: {note.tags.join(", ")}</Text>
             </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
       <TouchableOpacity
+        style={styles.addButton}
         onPress={() => {
+          setTitle("");
+          setContent("");
           setModalVisible(true);
         }}
       >
-        <Text style={styles.addButtonText}>New Pin</Text>
+        {/* <Text style={styles.addButtonText}>New Pin</Text>  */}
         <Ionicons name="pin-outline" />
       </TouchableOpacity>
 
       {modalVisible && (
         <LocationInputPage
-          visible={modalVisible}
+          modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
       )}
+
+      
     </View>
   );
 }
@@ -134,16 +165,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     gap: 8,
-  },
-  picker: {
-    color: "#FFFFFF", // White text for the picker
-    backgroundColor: "#333333", // Dark background for the picker
-    fontFamily: "PN", // Apply Poltawski
-    padding: 10,
-    borderRadius: 5,
-    alignContent: "center",
-    justifyContent: "center",
-    marginBottom: 10,
   },
   container: {
     flex: 1,

@@ -16,7 +16,8 @@
       "infoPlist": {
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Locus needs access to your location to notify you of previously saved locations nearby."
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.Locus"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +26,8 @@
       },
       "permissions": [
         "android.permission.ACCESS_FINE_LOCATION"
-      ]
+      ],
+      "package": "com.anonymous.Locus"
     },
     "web": {
       "bundler": "metro",
@@ -45,7 +47,11 @@
       [
         "expo-font",
         {
-          "fonts": ["assets/fonts/PoltawskiNowy-Regular.otf", "assets/fonts/PoltawskiNowy-SemiBold.otf", "assets/fonts/PoltawskiNowy-Italic.otf"]
+          "fonts": [
+            "assets/fonts/PoltawskiNowy-Regular.otf",
+            "assets/fonts/PoltawskiNowy-SemiBold.otf",
+            "assets/fonts/PoltawskiNowy-Italic.otf"
+          ]
         }
       ]
     ],

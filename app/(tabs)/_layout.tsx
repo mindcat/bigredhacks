@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           title: "note",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name={"pin-outline"} color={color} />
+            <TabBarIcon name={"globe-outline"} color={color} />
           ),
         }}
       />

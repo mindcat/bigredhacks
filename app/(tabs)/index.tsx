@@ -1,4 +1,5 @@
 import LocationInputPage from "@/components/locus/LocationInputPage";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
@@ -37,7 +38,13 @@ export default function Index() {
         style={styles.roundButton}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.buttonText}>+</Text>
+        <Ionicons name="pin-outline" size={30} color="white" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.journeyButton}
+        onPress={() => setModalVisible(true)}
+      >
+      <Ionicons name="footsteps-outline" size={30} color="white" />
       </TouchableOpacity>
 
       {modalVisible && (
@@ -61,10 +68,27 @@ const styles = StyleSheet.create({
   roundButton: {
     position: "absolute", // Ensure the button is positioned over the map
     bottom: 20, // Distance from the bottom
-    right: 20, // Distance from the right
+    right: "50%", // Distance from the right
+    marginRight: -30,
     backgroundColor: "#FF3B30", // Red background (you can change the color)
     width: 60, // Button width
     height: 60, // Button height
+    borderRadius: 30, // Half of width/height to make it round
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 5, // Shadow on Android
+    shadowColor: "#000", // Shadow on iOS
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 5,
+  },  
+  journeyButton: {
+    position: "absolute", // Ensure the button is positioned over the map
+    bottom: 25, // Distance from the bottom
+    right: 25, // Distance from the right
+    backgroundColor: "#1E1E1E", // Red background (you can change the color)
+    width: 50, // Button width
+    height: 50, // Button height
     borderRadius: 30, // Half of width/height to make it round
     alignItems: "center",
     justifyContent: "center",

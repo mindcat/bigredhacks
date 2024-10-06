@@ -1,6 +1,8 @@
 import { StyleSheet, Modal, TextInput, Text, Pressable, View } from "react-native";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Note from "@/types/Note";
+import Markdown from 'react-native-markdown-display'; // Import Markdown display component
+
 
 export default function LocationInputPage(props: any) {
   const { modalVisible, setModalVisible } = props;
@@ -58,55 +60,62 @@ export default function LocationInputPage(props: any) {
           control={control}
           rules={{ required: true }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              multiline
-              placeholder="Enter note content"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-              placeholderTextColor="#B0B0B0"
-            />
+            <View style={styles.contentContainer}>
+              <TextInput
+                multiline
+                placeholder="Enter note content"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                style={styles.contentInput}
+                placeholderTextColor="#B0B0B0"
+              />
+              {/* Display the Markdown content */}
+              {/* <Markdown >
+                {value}
+              </Markdown> */}
+            </View>
           )}
           name="content"
         />
         {errors.content && <Text style={styles.errorText}>This is required.</Text>}
 
-        <Controller
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Enter latitude"
-              keyboardType="numeric"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-              placeholderTextColor="#B0B0B0"
-            />
-          )}
-          name="latitude"
-        />
-        {errors.latitude && <Text style={styles.errorText}>This is required.</Text>}
-
-        <Controller
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Enter longitude"
-              keyboardType="numeric"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-              placeholderTextColor="#B0B0B0"
-            />
-          )}
-          name="longitude"
-        />
-        {errors.longitude && <Text style={styles.errorText}>This is required.</Text>}
+        <View style={styles.latLongContainer}>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                placeholder="Latitude"
+                keyboardType="numeric"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                style={styles.latLongInput}
+                placeholderTextColor="#B0B0B0"
+              />
+            )}
+            name="latitude"
+          />
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                placeholder="Longitude"
+                keyboardType="numeric"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                style={styles.latLongInput}
+                placeholderTextColor="#B0B0B0"
+              />
+            )}
+            name="longitude"
+          />
+        </View>
+        {errors.latitude && <Text style={styles.errorText}>Latitude is required.</Text>}
+        {errors.longitude && <Text style={styles.errorText}>Longitude is required.</Text>}
 
         <Controller
           control={control}
@@ -117,7 +126,7 @@ export default function LocationInputPage(props: any) {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={styles.errorText}
               placeholderTextColor="#B0B0B0"
             />
           )}
@@ -131,7 +140,7 @@ export default function LocationInputPage(props: any) {
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
           <Pressable onPress={handleSubmit(onSubmit)} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Save Experience</Text>
+            <Text style={styles.submitButtonText}>Save</Text>
           </Pressable>
         </View>
       </View>
@@ -153,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E", // Dark background for input fields
     fontFamily: "PN", // Regular font
     fontSize: 16,
-  },
+  },  
   inputBold: {
     borderWidth: 0, // No borders for minimalist look
     padding: 10,
@@ -162,6 +171,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E", // Dark background for input fields
     fontFamily: "PNB", // Bold font
     fontSize: 16,
+  },
+  contentInput: {
+    borderWidth: 0, // No borders
+    padding: 15,
+    marginBottom: 20,
+    color: "#FFFFFF", // White text
+    backgroundColor: "#1E1E1E", // Dark background
+    fontFamily: "PN", // Regular font
+    fontSize: 16,
+    flex: 3, // Make content section take up more space
+    textAlignVertical: "top", // Align text to top
+    height: 150, // Height of the content field
+  },
+  latLongContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  contentContainer: {
+    flex: 3,
+  },
+  markdown: {
+    color: "#FFFFFF",
+  },
+  latLongInput: {
+    borderWidth: 0, // No borders
+    padding: 10,
+    marginBottom: 10,
+    color: "#FFFFFF", // White text
+    backgroundColor: "#1E1E1E", // Dark background
+    fontFamily: "PN", // Regular font
+    fontSize: 16,
+    flex: 1, // Evenly distribute latitude and longitude fields
+    marginRight: 10, // Space between latitude and longitude
   },
   errorText: {
     color: "#FF3B30", // Red error text
