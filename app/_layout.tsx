@@ -6,11 +6,11 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
-import GetLocation from "react-native-get-location"
 import { useColorScheme } from "@/hooks/useColorScheme";
 import React from "react";
+import * as Location from "expo-location";
 
 declare global {
   var currentLat: number;
@@ -23,19 +23,23 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   global.currentLat = 43;
   global.currentLong  = -77;
-  GetLocation.getCurrentPosition({
-    enableHighAccuracy: true,
-    timeout: 60000,
-})
-.then(location => {
-    console.log(location);
-    global.currentLat = location.latitude;
-    global.currentLong = location.longitude;
-})
-.catch(error => {
-    const { code, message } = error;
-    console.warn(code, message);
-})
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      global.currentLat = location.coords.latitude; 
+      global.currentLong = location.coords.longitude;
+    })();
+  }, []);
 
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
