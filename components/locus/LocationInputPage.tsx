@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0, // No borders for minimalist look
     padding: 10,
+    borderRadius: 8,
     marginBottom: 10,
     color: "#FFFFFF", // White text
     backgroundColor: "#1E1E1E", // Dark background for input fields
@@ -225,6 +226,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputBold: {
+    borderRadius: 8,
     borderWidth: 0, // No borders for minimalist look
     padding: 10,
     marginBottom: 10,
@@ -236,6 +238,7 @@ const styles = StyleSheet.create({
   contentInput: {
     borderWidth: 0, // No borders
     padding: 15,
+    borderRadius: 8,
     marginBottom: 20,
     color: "#FFFFFF", // White text
     backgroundColor: "#1E1E1E", // Dark background

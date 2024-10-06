@@ -29,7 +29,7 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     PN: require("../assets/fonts/PoltawskiNowy-Regular.otf"),
     PNI: require("../assets/fonts/PoltawskiNowy-Italic.otf"),
-    PNB: require("../assets/fonts/PoltawskiNowy-SemiBold.otf"),
+    PNB: require("../assets/fonts/PoltawskiNowy-Bold.otf"),
   });
 
   useEffect(() => {
