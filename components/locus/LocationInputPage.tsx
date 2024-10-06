@@ -4,7 +4,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   Modal,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -17,12 +16,14 @@ interface LocationInputPageProps {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   location?: Location;
+  setSelectedLocation?: (location?: Location) => void;
 }
 
 export default function LocationInputPage({
   modalVisible,
   setModalVisible,
   location,
+  setSelectedLocation,
 }: LocationInputPageProps) {
   const {
     control,
@@ -57,13 +58,18 @@ export default function LocationInputPage({
   };
 
   const closeModal = () => {
+    if (setSelectedLocation !== undefined) {
+      setSelectedLocation(undefined);
+    }
     setModalVisible(false);
   };
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent={true}>
       <KeyboardAvoidingView behavior={"height"} style={styles.modalContainer}>
-        <Text style={styles.title}>New Memory</Text>
+        <Text style={styles.title}>
+          {location !== undefined ? "Edit " : "New "}Memory
+        </Text>
         <Controller
           control={control}
           rules={{ required: true }}
