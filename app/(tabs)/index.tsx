@@ -1,11 +1,6 @@
+import LocationInputPage from "@/components/locus/LocationInputPage";
 import React, { useState } from "react";
-import {
-  Text,
-  Pressable,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 
 export default function Index() {
@@ -24,6 +19,8 @@ export default function Index() {
     },
   ]);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View>
       <MapView style={styles.map}>
@@ -38,14 +35,17 @@ export default function Index() {
       </MapView>
       <TouchableOpacity
         style={styles.roundButton}
-        onPress={() => {
-          // setTitle("");
-          // setContent("");
-          // setModalVisible(true);
-        }}
+        onPress={() => setModalVisible(true)}
       >
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
+
+      {modalVisible && (
+        <LocationInputPage
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </View>
   );
 }
