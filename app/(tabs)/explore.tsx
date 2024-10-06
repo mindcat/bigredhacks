@@ -23,7 +23,7 @@ export default function Explore() {
     callApiGetAllLocations().then((data) => {
       setLocations(data);
     });
-  }, [modalVisible]);
+  }, [modalVisible, setModalVisible]);
 
   const sortLocations = (locations: Location[]) => {
     switch (sortCriteria) {

@@ -1,7 +1,7 @@
 import LocationInputPage from "@/components/locus/LocationInputPage";
 import { callApiGetAllLocations } from "@/utils/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 
