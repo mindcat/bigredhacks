@@ -24,8 +24,8 @@ export default function TabTwoScreen() {
         <ThemedText style={styles.textTitle}>Settings</ThemedText>
       </ThemedView>
       <Collapsible title={<Text style={styles.textB}>Debug</Text>}>
-        <ThemedText style={styles.text}>Current latitude: {currentLat}</ThemedText>
-        <ThemedText style={styles.text}>Current longitude: {currentLong}</ThemedText>
+        <ThemedText style={styles.text}>Current latitude: {global.currentLat}</ThemedText>
+        <ThemedText style={styles.text}>Current longitude: {global.currentLong}</ThemedText>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputNum}
@@ -46,7 +46,7 @@ export default function TabTwoScreen() {
       </Collapsible>
       <Collapsible title={<Text style={styles.textB}>Introduction</Text>}>
         <ThemedText style={styles.text}>
-          Welcome to locus, a mobile application that helps you keep track of
+          Welcome to Vitri, a mobile application that helps you keep track of
           your memories geospatially!
         </ThemedText>
       </Collapsible>

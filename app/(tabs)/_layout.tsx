@@ -17,7 +17,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: "recall",
+          title: "recollections",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name={"telescope-outline"} color={color} />
           ),
@@ -26,7 +26,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "note",
+          title: "pins",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name={"globe-outline"} color={color} />
           ),
