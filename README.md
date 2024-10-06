@@ -1,5 +1,32 @@
-# bigredhacks
+# Vitri
+
+
 Cornell hackathon project Fall 2024 (2025 season)
+
+# Minimum Viable Product
+
+## Functionality
+
+- [ ] Ability to point to a location on the map and save it as a place to visit
+- [ ] Ability to tag favorite locations by their type (e.g., restaurant, museum, library, attraction, cafe, etc.)
+- [ ] Optionally add a note manually or use AI
+  - [ ] AI: Provide questions/prompts/fill-in-the-blanks for user input
+  - [ ] AI: Generate a neat summary/note of the saved location from user input
+- [ ] Ability to mark a saved location as visited with a simple 1-tap button
+- [ ] Display saved locations as pins on the map
+- [ ] Differentiate visited locations on the map (e.g., color, icon) from unvisited locations
+- [ ] Sort saved locations by distance from the user’s current location (disable if location permissions are denied)
+- [ ] Ability to set dates on saved locations (default to current date, allow setting past dates)
+
+## Organization
+
+- [ ] Store saved locations locally with cloud storage for backups (Pinata or MongoDB)
+- [ ] Organize saved locations into folders called Collections
+- [ ] Ability to share saved locations or a collection with others via a link (no cloud integration needed)
+
+## Design
+
+- [ ] Minimalist design
 
 ### brainstorming
 - location based journaling/memories/notes?

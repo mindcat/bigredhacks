@@ -191,7 +191,7 @@ export default function LocationInputPage({
             onPress={handleSubmit(onSubmit)}
             style={styles.submitButton}
           >
-            <Text style={styles.submitButtonText}>Save Experience</Text>
+            <Text style={styles.submitButtonText}>Save</Text>
           </Pressable>
         </View>
       </View>
