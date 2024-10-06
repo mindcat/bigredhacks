@@ -15,6 +15,9 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    PN: require('../assets/fonts/PoltawskiNowy-Regular.otf'),
+    PNI: require('../assets/fonts/PoltawskiNowy-Italic.otf'),
+    PNB: require('../assets/fonts/PoltawskiNowy-SemiBold.otf'),
   });
 
   useEffect(() => {

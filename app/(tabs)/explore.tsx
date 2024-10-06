@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 import Note from "@/types/Note";
 import LocationInputPage from "@/components/locus/LocationInputPage";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabTwoScreen() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -51,8 +52,8 @@ export default function TabTwoScreen() {
   const handleEditNote = (note: Note) => {};
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View className="flex-1 p-4 bg-white">
-      <Text className="text-2xl font-bold mb-4 mt-8">My Notes</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>My Journey</Text>
 
       <ScrollView className="flex-1">
         {notes.map((note) => (
@@ -78,10 +79,98 @@ export default function TabTwoScreen() {
         }}
         className="mt-4 p-4 bg-blue-500 rounded-lg"
       >
-        <Text className="text-white text-center">Add Note</Text>
+        <Text style={styles.addButtonText}>New Pin</Text>
+        <Ionicons name="pin-outline" />
       </TouchableOpacity>
 
       {modalVisible && <LocationInputPage visible={modalVisible} />}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  headerImage: {
+    color: "#808080", // Keeping this unchanged since it's an image color
+    bottom: -90,
+    left: -35,
+    position: "absolute",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  container: {
+    flex: 1,
+    padding: 40,
+    backgroundColor: "#121212", // Dark background for the entire container
+  },
+  title: {
+    fontSize: 36,
+    marginBottom: 10,
+    color: "#FFFFFF", // White text for titles
+    fontFamily: "PN", // Use Poltawski Nowy font for the title
+  },
+  noteList: {
+    flex: 1,
+  },
+  noteTitle: {
+    fontSize: 15,
+    marginBottom: 10,
+    color: "#FFFFFF", // White text for the note titles
+    backgroundColor: "#1E1E1E", // Dark background for note titles
+    height: 40,
+    width: "100%",
+    padding: 10,
+    borderRadius: 8,
+    fontFamily: "PoltawskiNowy", // Apply Poltawski Nowy font
+  },
+  addButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FF3B30", // Red highlight for the add button (NothingOS inspired)
+    paddingVertical: 12,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  addButtonText: {
+    color: "#FFFFFF", // White text for the button
+    fontSize: 16,
+    fontFamily: "PN", // Apply Poltawski Nowy font to the button text
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 50,
+    backgroundColor: "#1E1E1E", // Dark background for modal
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#FF3B30", // Red border highlight for inputs
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    color: "#FFFFFF", // White text for input fields
+    backgroundColor: "#333333", // Dark background for input fields
+    fontFamily: "PN", // Apply Poltawski Nowy font to the input fields
+  },
+  noteDetails: {
+    fontSize: 12,
+    color: "#FFFFFF", // White text for note details
+    fontFamily: "PN", // Apply Poltawski Nowy font
+  },
+  contentInput: {
+    borderWidth: 1,
+    borderColor: "#FF3B30", // Red border for content input
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 5,
+    height: 150,
+    textAlignVertical: "top",
+    backgroundColor: "#333333", // Dark background for content input
+    color: "#FFFFFF", // White text for content input
+    fontFamily: "PN", // Apply Poltawski Nowy font
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

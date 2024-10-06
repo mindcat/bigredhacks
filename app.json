@@ -23,7 +23,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -35,9 +37,12 @@
       [
         "react-native-permissions",
         {
-          "iosPermissions": ["Location"]
+          "iosPermissions": [
+            "Location"
+          ]
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
