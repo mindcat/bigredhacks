@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Text, Pressable, View } from "react-native";
+import { View } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 
 export default function Index() {
   const [markers, setMarkers] = useState([
     {
-      coordinate: { latitude: 37.78825, longitude: -122.4324 },
+      coordinate: { latitude: 10.74221, longitude: 106.6742125 },
       title: "Hello",
       description: "World",
     },
