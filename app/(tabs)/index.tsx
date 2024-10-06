@@ -1,9 +1,10 @@
+import LocationInputPage from "@/components/locus/LocationInputPage";
 import React, { useState } from "react";
-import { Text, Pressable, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { MapMarkerProps, Marker } from "react-native-maps";
 
 export default function Index() {
-  // global currentLat = 
+  // global currentLat =
 
   const [markers, setMarkers] = useState([
     {
@@ -18,9 +19,11 @@ export default function Index() {
     },
   ]);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View>
-      <MapView tintColor="red">
+      <MapView style={styles.map}>
         {markers.map((marker: MapMarkerProps, index) => (
           <Marker
             key={index}
@@ -30,13 +33,19 @@ export default function Index() {
           />
         ))}
       </MapView>
-      <TouchableOpacity style={styles.roundButton} onPress={() => {
-          // setTitle("");
-          // setContent("");
-          // setModalVisible(true);
-        }}>
+      <TouchableOpacity
+        style={styles.roundButton}
+        onPress={() => setModalVisible(true)}
+      >
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
+
+      {modalVisible && (
+        <LocationInputPage
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </View>
   );
 }
@@ -46,7 +55,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    flex: 1,
+    height: "100%",
+    width: "100%",
   },
   roundButton: {
     position: "absolute", // Ensure the button is positioned over the map

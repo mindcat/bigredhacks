@@ -16,8 +16,11 @@ export default function TabTwoScreen() {
   };
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="cog-outline" style={styles.headerImage} />}>
+      headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
+      headerImage={
+        <Ionicons size={310} name="cog-outline" style={styles.headerImage} />
+      }
+    >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Settings</ThemedText>
       </ThemedView>
@@ -44,7 +47,8 @@ export default function TabTwoScreen() {
     </Collapsible>
       <Collapsible title="Guide">
         <ThemedText>
-          Welcome to locus, a mobile application that helps you keep track of your memories geospatially!
+          Welcome to locus, a mobile application that helps you keep track of
+          your memories geospatially!
         </ThemedText>
       </Collapsible>
     </ParallaxScrollView>
@@ -53,13 +57,13 @@ export default function TabTwoScreen() {
 
 const styles = StyleSheet.create({
   headerImage: {
-    color: '#808080',
+    color: "#808080",
     bottom: -90,
     left: -35,
-    position: 'absolute',
+    position: "absolute",
   },
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
   inputContainer: {
