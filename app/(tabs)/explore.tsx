@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
+import { Picker } from "@react-native-picker/picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabTwoScreen() {
@@ -30,6 +31,26 @@ export default function TabTwoScreen() {
   const [longitude, setLongitude] = useState<string>(""); // Storing longitude as string for TextInput
   const [tags, setTags] = useState<string>(""); // Comma-separated string to capture tags
   const [modalVisible, setModalVisible] = useState(false);
+  const [sortCriteria, setSortCriteria] = useState('timestamp');
+
+  // const sortNotes = (notes) => {
+  //   switch (sortCriteria) {
+  //     case 'timestamp':
+  //       return notes.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  //     case 'tags':
+  //       return notes.sort((a, b) => a.tags.join(', ').localeCompare(b.tags.join(', ')));
+  //     case 'proximity':
+  //       return notes.sort((a, b) => {
+  //         const distanceA = Math.sqrt(Math.pow(a.latitude - currentLat, 2) + Math.pow(a.longitude - currentLong, 2));
+  //         const distanceB = Math.sqrt(Math.pow(b.latitude - currentLat, 2) + Math.pow(b.longitude - currentLong, 2));
+  //         return distanceA - distanceB;
+  //       });
+  //     default:
+  //       return notes;
+  //   }
+  // };
+
+  // const sortedNotes = sortNotes([...notes]);
 
   const handleSaveNote = () => {
     if (selectedNote) {
@@ -84,7 +105,15 @@ export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Journey</Text>
-
+      <Picker
+          selectedValue={sortCriteria}
+          style={{ height: 50, width: '100%' }}
+          onValueChange={(itemValue) => setSortCriteria(itemValue)}
+        >
+          <Picker.Item label="Sort by Timestamp" value="timestamp" />
+          <Picker.Item label="Sort by Tags" value="tags" />
+          <Picker.Item label="Sort by Proximity" value="proximity" />
+        </Picker>
       <ScrollView style={styles.noteList}>
         {notes.map((note) => (
           <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
@@ -107,7 +136,7 @@ export default function TabTwoScreen() {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.addButtonText}>New Pin</Text> 
+        {/* <Text style={styles.addButtonText}>New Pin</Text>  */}
         <Ionicons name="pin-outline" />
       </TouchableOpacity>
 
