@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -26,7 +27,16 @@ export default function LocationInputPage({
     handleSubmit,
     formState: { errors },
   } = useForm<Location>({
-    defaultValues: location !== undefined ? location : {},
+    defaultValues:
+      location !== undefined
+        ? location
+        : {
+            title: "",
+            content: "",
+            latitude: global.currentLat,
+            longitude: global.currentLong,
+            tags: "",
+          },
   });
 
   const onSubmit: SubmitHandler<Location> = (data) => {
@@ -77,7 +87,7 @@ export default function LocationInputPage({
 
         <Controller
           control={control}
-          rules={{ required: true }}
+          rules={{ required: false }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View style={styles.contentContainer}>
               <TextInput
@@ -117,7 +127,11 @@ export default function LocationInputPage({
                     onChange(val); // Update the field value only if the regex passes
                   }
                 }}
-                value={value !== undefined ? String(value) : ""}
+                value={
+                  value !== undefined
+                    ? String(value)
+                    : global.currentLat.toString()
+                }
                 style={styles.inputNum}
                 placeholderTextColor="#B0B0B0"
               />
@@ -146,7 +160,11 @@ export default function LocationInputPage({
                     onChange(val); // Update the field value only if the regex passes
                   }
                 }}
-                value={value !== undefined ? String(value) : ""}
+                value={
+                  value !== undefined
+                    ? String(value)
+                    : global.currentLong.toString()
+                }
                 style={styles.inputNum}
                 placeholderTextColor="#B0B0B0"
               />
@@ -180,12 +198,12 @@ export default function LocationInputPage({
           <Pressable onPress={closeModal} style={styles.cancelButton}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
-          <Pressable
+          <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
             style={styles.submitButton}
           >
             <Text style={styles.submitButtonText}>Save</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -216,6 +234,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF", // White text
     fontFamily: "PN", // Regular font
     fontSize: 16,
+    overflow: "hidden", // Hide any overflow text
   },
   inputBold: {
     borderRadius: 8,
